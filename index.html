@@ -3,137 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOKER INDONESIA PRO | Next-Gen Career Portal</title>
-    
-    <!-- Google Fonts & Libraries -->
+    <title>LOKERINDO PRO | Premium Career Gateway</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
-            /* 1. Dynamic Theme Engine */
-            --bg-main: #0a0a0c; --bg-glass: rgba(18, 18, 23, 0.8);
-            --card-bg: #16161e; --border: rgba(255, 255, 255, 0.08);
-            --primary: #6366f1; --primary-glow: rgba(99, 102, 241, 0.4);
-            --accent: #10b981; --text-h: #ffffff; --text-p: #94a3b8;
-            --danger: #ff4757; --fav: #eccc68; --radius: 16px;
+            --bg: #0a0a0c; --glass: rgba(18, 18, 23, 0.85);
+            --card: #16161e; --border: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1; --primary-glow: rgba(99, 102, 241, 0.3);
+            --accent: #10b981; --text: #ffffff; --text-dim: #94a3b8;
+            --radius: 18px;
         }
 
         [data-theme="light"] {
-            --bg-main: #f8fafc; --bg-glass: rgba(255, 255, 255, 0.8);
-            --card-bg: #ffffff; --border: rgba(0, 0, 0, 0.05);
-            --text-h: #0f172a; --text-p: #475569;
+            --bg: #f8fafc; --glass: rgba(255, 255, 255, 0.85);
+            --card: #ffffff; --border: rgba(0, 0, 0, 0.05);
+            --text: #0f172a; --text-dim: #475569;
         }
 
-        /* 2. Custom Scrollbar & Selection */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        ::selection { background: var(--primary); color: white; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; transition: 0.4s; }
 
-        /* 3. Base & Typography */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg-main); color: var(--text-h); 
-            overflow-x: hidden; scroll-behavior: smooth;
-            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* 4. Glassmorphism Header */
+        /* HEADER */
         header {
             position: sticky; top: 0; z-index: 1000;
-            background: var(--bg-glass); backdrop-filter: blur(12px);
+            background: var(--glass); backdrop-filter: blur(15px);
             padding: 1.2rem 8%; display: flex; justify-content: space-between;
             align-items: center; border-bottom: 1px solid var(--border);
         }
-        .logo-text { 
-            font-weight: 800; font-size: 1.5rem; letter-spacing: -1px;
-            background: linear-gradient(to right, var(--primary), #a855f7);
+        .logo { cursor: pointer; user-select: none; transition: 0.3s; }
+        .logo:active { transform: scale(0.95); }
+        .logo h1 { 
+            font-weight: 800; font-size: 1.6rem;
+            background: linear-gradient(90deg, var(--primary), #a855f7);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* 5. Bento Grid Stats */
-        .dashboard-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem; padding: 2rem 8%;
+        /* SEARCH SECTION */
+        .search-area { padding: 3rem 8% 1rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .input-box {
+            flex: 1; min-width: 280px; background: var(--card);
+            border: 1px solid var(--border); padding: 1.1rem 1.5rem;
+            border-radius: 15px; color: var(--text); outline: none; transition: 0.3s;
         }
-        .bento-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: var(--radius); padding: 1.5rem;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-        .bento-card:hover { transform: scale(1.02); border-color: var(--primary); }
+        .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
 
-        /* 6. Job Card (Elevated Design) */
-        .loker-container { padding: 0 8% 4rem; display: grid; gap: 1.5rem; }
+        /* JOB CARD */
+        .loker-list { padding: 1rem 8% 5rem; display: grid; gap: 1.5rem; }
         .job-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 20px; padding: 2rem; position: relative;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 22px; padding: 2rem; position: relative;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; flex-direction: column; gap: 1rem;
+            animation: fadeIn 0.6s ease-out forwards;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
         .job-card:hover { 
             border-color: var(--primary); 
-            box-shadow: 0 20px 40px -15px var(--primary-glow);
-        }
-        .job-badge {
-            font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-            padding: 4px 12px; border-radius: 20px; background: rgba(99, 102, 241, 0.1);
-            color: var(--primary); width: fit-content;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
         }
 
-        /* 7. Skeleton Loading Animation */
-        .skeleton {
-            background: linear-gradient(90deg, var(--card-bg) 25%, var(--border) 50%, var(--card-bg) 75%);
-            background-size: 200% 100%; animation: loading 1.5s infinite;
-            border-radius: 10px; height: 20px;
+        .badge {
+            font-size: 0.65rem; font-weight: 800; background: rgba(99, 102, 241, 0.15);
+            color: var(--primary); padding: 5px 14px; border-radius: 30px; margin-bottom: 1rem; display: inline-block;
         }
-        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        /* 8. Modern Inputs & Buttons */
-        .search-wrapper {
-            padding: 2rem 8%; display: flex; gap: 1rem; flex-wrap: wrap;
-        }
-        .input-elegant {
-            flex: 1; min-width: 250px; background: var(--card-bg);
-            border: 1px solid var(--border); padding: 1rem 1.5rem;
-            border-radius: 14px; color: white; outline: none; transition: 0.3s;
-        }
-        .input-elegant:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
 
         .btn {
-            padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 700;
+            padding: 0.9rem 1.6rem; border-radius: 12px; font-weight: 700;
             cursor: pointer; border: none; transition: 0.3s; display: inline-flex;
-            align-items: center; gap: 8px; justify-content: center;
+            align-items: center; gap: 10px; justify-content: center; font-size: 0.9rem;
         }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px var(--primary-glow); }
-        .btn-wa { background: #22c55e; color: white; }
+        .btn-wa { background: #22c55e; color: white; text-decoration: none; }
+        .btn-wa:hover { box-shadow: 0 10px 20px -5px rgba(34, 197, 94, 0.4); }
 
-        /* 9. AI Parser Box */
-        .ai-assistant {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
-            border: 2px dashed var(--primary); padding: 2rem; border-radius: 20px;
-            margin-bottom: 2rem; position: relative; overflow: hidden;
+        /* ADMIN HIDDEN PANEL */
+        .admin-panel {
+            background: var(--card); border: 1px solid var(--primary);
+            border-radius: 20px; padding: 2rem; margin: 2rem 8%;
+            display: none; /* Default Hidden */
         }
 
-        /* 10. Modals & Notifications */
+        /* TOAST */
         .toast {
-            position: fixed; bottom: 20px; right: 20px; background: var(--accent);
-            color: white; padding: 1rem 2rem; border-radius: 12px; 
-            transform: translateY(100px); transition: 0.5s; z-index: 9999;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--primary); color: white; padding: 12px 30px;
+            border-radius: 50px; font-weight: 600; transition: 0.5s; z-index: 10000;
         }
 
+        /* MODAL */
         .modal {
-            display: none; position: fixed; inset: 0; z-index: 2000;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-            padding: 2rem; overflow-y: auto;
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+            padding: 2rem;
         }
         .modal-content {
-            background: var(--card-bg); max-width: 700px; margin: auto;
-            border-radius: 24px; padding: 3rem; border: 1px solid var(--border);
+            background: var(--card); max-width: 650px; margin: auto;
+            border-radius: 25px; padding: 2.5rem; border: 1px solid var(--border);
         }
 
         .hidden { display: none !important; }
@@ -142,255 +111,186 @@
 <body>
 
 <header>
-    <div class="logo-area">
-        <span class="logo-text">LOKERINDO.PRO</span>
+    <div class="logo" id="logoSecret" onclick="adminCounter()">
+        <h1>LOKERINDO.PRO</h1>
     </div>
     <div style="display: flex; gap: 1rem;">
-        <button class="btn" style="background: var(--card-bg)" onclick="toggleTheme()">🌓</button>
-        <button class="btn btn-primary" onclick="showLogin()" id="adminBtn">Admin Access</button>
+        <button class="btn" style="background: var(--card)" onclick="toggleTheme()">🌓</button>
     </div>
 </header>
 
-<!-- Dashboard Statistics (Bento Grid) -->
-<div id="adminDash" class="dashboard-grid hidden">
-    <div class="bento-card">
-        <p style="color: var(--text-p)">Total Lowongan</p>
-        <h2 id="totalJobs" style="font-size: 2.5rem;">0</h2>
+<!-- Dashboard Admin (Muncul setelah 9 klik logo) -->
+<div id="adminArea" class="admin-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>🔐 Admin Control Center</h2>
+        <button class="btn" style="background: var(--danger)" onclick="logout()">Tutup</button>
     </div>
-    <div class="bento-card">
-        <p style="color: var(--text-p)">Klik WhatsApp</p>
-        <h2 id="totalClicks" style="font-size: 2.5rem;">0</h2>
-    </div>
-    <div class="bento-card" style="grid-column: span 1; display: flex; align-items: center; gap: 1rem;">
-        <button class="btn btn-primary" onclick="openModal()">+ Post Baru</button>
-        <button class="btn" style="background: var(--danger)" onclick="logout()">Logout</button>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div style="background: var(--bg); padding: 1.5rem; border-radius: 15px;">
+            <p style="color: var(--text-dim)">Total Loker</p>
+            <h1 id="countJobs">0</h1>
+        </div>
+        <button class="btn btn-primary" onclick="openModal()">+ Posting Loker Baru</button>
     </div>
 </div>
 
-<!-- Search & Filters -->
-<section class="search-wrapper">
-    <input type="text" id="mainSearch" class="input-elegant" placeholder="🔍 Cari posisi, skill, atau perusahaan..." onkeyup="app.filter()">
-    <select id="catFilter" class="input-elegant" onchange="app.filter()"><option value="">Semua Kategori (100+)</option></select>
-    <select id="locFilter" class="input-elegant" onchange="app.filter()"><option value="">Semua Lokasi</option></select>
-    <button class="btn btn-primary" onclick="app.showFav()">⭐ Favorit</button>
+<section class="search-area">
+    <input type="text" id="q" class="input-box" placeholder="Cari posisi, perusahaan, atau lokasi..." onkeyup="app.search()">
+    <select id="cat" class="input-box" onchange="app.search()" style="flex: 0.5;">
+        <option value="">Semua Kategori</option>
+    </select>
 </section>
 
-<!-- Job Listing -->
-<main id="lokerGrid" class="loker-container">
-    <!-- Skeleton Loading placeholders -->
-    <div class="job-card skeleton-card">
-        <div class="skeleton" style="width: 30%"></div>
-        <div class="skeleton" style="width: 80%; height: 40px;"></div>
-        <div class="skeleton" style="width: 60%"></div>
-    </div>
-</main>
+<main id="mainGrid" class="loker-list"></main>
 
-<!-- Modal Admin -->
-<div id="adminModal" class="modal">
+<!-- MODAL FORM -->
+<div id="jobModal" class="modal">
     <div class="modal-content">
-        <h2 style="margin-bottom: 1.5rem;">✨ Post via AI Assistant</h2>
-        <div class="ai-assistant">
-            <textarea id="aiRaw" class="input-elegant" style="width: 100%; margin-bottom: 1rem;" rows="5" placeholder="Tempel teks berantakan di sini..."></textarea>
-            <button class="btn btn-primary" style="width: 100%" onclick="app.aiParse()">🪄 Rapikan & Deteksi Otomatis</button>
-        </div>
+        <h3>✨ Asisten AI Postingan</h3><br>
+        <textarea id="aiText" class="input-box" style="width: 100%; margin-bottom: 1rem;" rows="4" placeholder="Tempel teks berantakan loker di sini..."></textarea>
+        <button class="btn btn-primary" style="width: 100%; margin-bottom: 2rem;" onclick="app.aiFormat()">🪄 Rapikan Teks Sekarang</button>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <input type="text" id="fPos" class="input-elegant" placeholder="Posisi">
-            <input type="text" id="fComp" class="input-elegant" placeholder="Perusahaan">
-            <input type="text" id="fLoc" class="input-elegant" placeholder="Lokasi">
-            <input type="text" id="fWA" class="input-elegant" placeholder="WhatsApp (62...)">
+            <input type="text" id="fPos" class="input-box" placeholder="Posisi">
+            <input type="text" id="fComp" class="input-box" placeholder="Perusahaan">
+            <input type="text" id="fLoc" class="input-box" placeholder="Lokasi">
+            <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (62...)">
         </div>
-        <textarea id="fDesc" class="input-elegant" style="width: 100%; margin-top: 1rem;" rows="5" placeholder="Deskripsi Rapi..."></textarea>
+        <textarea id="fDesc" class="input-box" style="width: 100%; margin-top: 1rem;" rows="4" placeholder="Deskripsi Rapi..."></textarea>
         
         <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-            <button class="btn btn-primary" style="flex: 1" onclick="app.save()">Posting Sekarang</button>
+            <button class="btn btn-primary" style="flex: 1" onclick="app.save()">Terbitkan Loker</button>
             <button class="btn" onclick="closeModal()">Batal</button>
         </div>
     </div>
 </div>
 
-<div id="toast" class="toast">Berhasil disalin!</div>
+<div id="toast" class="toast">Aksi Berhasil!</div>
 
 <script>
-/**
- * LOKER INDONESIA PRO - CORE LOGIC
- * Implementasi 40 Upgrade Elegan
- */
+// DATA AWAL (Contoh 5 Lowongan Terposting)
+const initialData = [
+    { id: 1, pos: "Frontend Engineer (React)", comp: "PT. Tekno Kreatif", loc: "Jakarta", wa: "628123456789", desc: "• Menguasai React & Tailwind CSS\n• Pengalaman 2 tahun\n• Gaji Kompetitif & Bonus", cat: "IT / Programmer", time: Date.now() },
+    { id: 2, pos: "Admin Gudang & Inventori", comp: "Logistik Jaya Abadi", loc: "Surabaya", wa: "628987654321", desc: "• Pria/Wanita max 28th\n• Teliti dalam pendataan barang\n• Domisili Surabaya diutamakan", cat: "Warehouse", time: Date.now() - 3600000 },
+    { id: 3, pos: "Social Media Specialist", comp: "Creative Agency X", loc: "Bandung", wa: "62811223344", desc: "• Mengelola TikTok & Instagram\n• Bisa editing CapCut/Canva\n• Kreatif & Up-to-date tren", cat: "Digital Marketing", time: Date.now() - 86400000 },
+    { id: 4, pos: "Barista Part Time", comp: "Kopi Senja", loc: "Malang", wa: "62855667788", desc: "• Shift pagi/sore\n• Ramah & Komunikatif\n• Training disediakan", cat: "Barista", time: Date.now() - 172800000 },
+    { id: 5, pos: "Staff Accounting", comp: "PT. Keuangan Makmur", loc: "Medan", wa: "62899001122", desc: "• Lulusan S1 Akuntansi\n• Menguasai MS Excel tingkat lanjut\n• Jujur & Bertanggung jawab", cat: "Accounting", time: Date.now() - 259200000 }
+];
 
-const categories = ["Accounting", "Admin Gudang", "Backend Developer", "Barista", "Content Creator", "Customer Service", "Data Entry", "Digital Marketing", "Driver", "Graphic Designer", "HRD", "IT Support", "Legal", "Operator Produksi", "Programmer", "Sales", "Security", "Social Media Manager", "Teknisi", "UI/UX Designer", "Video Editor", "Warehouse Staff"].sort();
+const categories = ["IT / Programmer", "Digital Marketing", "Warehouse", "Accounting", "Barista", "Admin", "Sales", "Customer Service", "Designer", "Driver"];
 
 const app = {
-    db: JSON.parse(localStorage.getItem('pro_loker_v3')) || [],
-    fav: JSON.parse(localStorage.getItem('pro_fav_v3')) || [],
-
+    db: JSON.parse(localStorage.getItem('loker_v4_db')) || initialData,
+    
     init() {
-        this.loadFilters();
-        setTimeout(() => this.render(), 800); // Simulate Skeleton Loading
+        const catSelect = document.getElementById('cat');
+        categories.sort().forEach(c => catSelect.innerHTML += `<option value="${c}">${c}</option>`);
+        this.render();
     },
 
-    loadFilters() {
-        const catS = document.getElementById('catFilter');
-        categories.forEach(c => catS.innerHTML += `<option value="${c}">${c}</option>`);
-        
-        const locs = [...new Set(this.db.map(l => l.loc))];
-        const locS = document.getElementById('locFilter');
-        locs.forEach(l => locS.innerHTML += `<option value="${l}">${l}</option>`);
+    render(data = this.db) {
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = "";
+        data.forEach(item => {
+            grid.innerHTML += `
+                <div class="job-card">
+                    <span class="badge">${item.cat}</span>
+                    <h2 style="margin-bottom:0.5rem">${item.pos}</h2>
+                    <p style="color:var(--text-dim); margin-bottom:1.5rem">🏢 ${item.comp} • 📍 ${item.loc}</p>
+                    <div style="white-space:pre-line; color:var(--text-dim); font-size:0.9rem; margin-bottom:2rem">${item.desc}</div>
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap">
+                        <a href="https://wa.me/${item.wa}?text=Halo%20Admin%20${item.comp},%20saya%20ingin%20melamar%20posisi%20${item.pos}" 
+                           target="_blank" class="btn btn-wa">Lamar via WhatsApp</a>
+                        <button class="btn" style="background:var(--bg)" onclick="app.share('${item.pos}')">📤 Share</button>
+                        ${document.getElementById('adminArea').style.display === 'block' ? `<button class="btn" style="background:var(--bg); color:red" onclick="app.delete(${item.id})">Hapus</button>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        document.getElementById('countJobs').innerText = this.db.length;
     },
 
-    // AI Parser (Rasa AI - Feature #22)
-    aiParse() {
-        const raw = document.getElementById('aiRaw').value;
+    aiFormat() {
+        const raw = document.getElementById('aiText').value;
         if(!raw) return;
-        
-        showToast("🪄 AI sedang merapikan teks...");
-        
+        showToast("🪄 AI sedang merapikan...");
         setTimeout(() => {
-            let cleaned = raw.replace(/\s\s+/g, ' ').trim();
-            const lines = cleaned.split('\n');
-            
-            document.getElementById('fPos').value = lines[0].substring(0, 35).toUpperCase();
-            document.getElementById('fComp').value = "PT Terdeteksi";
-            
-            // Auto-format Bullet Points (Feature #2)
-            let formatted = cleaned.replace(/([•\-\*])/g, '\n•').replace(/\.\s/g, '.\n');
-            document.getElementById('fDesc').value = formatted;
-        }, 600);
+            const lines = raw.split('\n');
+            document.getElementById('fPos').value = lines[0].substring(0, 30).toUpperCase();
+            document.getElementById('fDesc').value = raw.replace(/\.\s/g, '.\n• ').trim();
+            showToast("Selesai!");
+        }, 500);
     },
 
     save() {
-        const data = {
-            id: 'JOB-' + Date.now(),
+        const newItem = {
+            id: Date.now(),
             pos: document.getElementById('fPos').value,
             comp: document.getElementById('fComp').value,
             loc: document.getElementById('fLoc').value,
             wa: document.getElementById('fWA').value,
             desc: document.getElementById('fDesc').value,
-            time: new Date().getTime(),
-            clicks: 0
+            cat: document.getElementById('cat').value || "Lainnya",
+            time: Date.now()
         };
-        this.db.unshift(data);
-        localStorage.setItem('pro_loker_v3', JSON.stringify(this.db));
+        this.db.unshift(newItem);
+        localStorage.setItem('loker_v4_db', JSON.stringify(this.db));
         closeModal();
         this.render();
     },
 
-    render(data = this.db) {
-        const container = document.getElementById('lokerGrid');
-        container.innerHTML = "";
-
-        data.forEach(job => {
-            const isFav = this.fav.includes(job.id);
-            const timeAgo = this.timeSince(job.time); // Feature #14
-
-            container.innerHTML += `
-                <div class="job-card" id="card-${job.id}">
-                    <div style="display:flex; justify-content:space-between; align-items:start;">
-                        <span class="job-badge">🔥 Baru</span>
-                        <span style="cursor:pointer; color:${isFav?'var(--fav)':'var(--text-p)'}" onclick="app.toggleFav('${job.id}')">
-                            ${isFav ? '★' : '☆'}
-                        </span>
-                    </div>
-                    <div>
-                        <h2 style="margin-bottom:0.4rem;">${job.pos}</h2>
-                        <p style="color:var(--text-p); font-size:0.9rem;">🏢 ${job.comp} • 📍 ${job.loc}</p>
-                    </div>
-                    <div style="white-space:pre-line; font-size:0.9rem; color:var(--text-p); opacity:0.8;">
-                        ${job.desc.substring(0, 180)}...
-                    </div>
-                    <div style="margin-top:auto; display:flex; gap:0.8rem; flex-wrap:wrap;">
-                        <a href="https://wa.me/${job.wa}?text=Halo, saya melamar ${job.pos}" target="_blank" class="btn btn-wa" onclick="app.hit('${job.id}')">Lamar via WA</a>
-                        <button class="btn" style="background:var(--bg-main)" onclick="app.share('${job.id}')">🔗 Share</button>
-                        <button class="btn" style="background:var(--bg-main)" onclick="app.download('${job.id}')">📸 Save</button>
-                    </div>
-                    <p style="font-size:0.7rem; color:var(--text-p); margin-top:0.5rem;">Diposting ${timeAgo}</p>
-                </div>
-            `;
-        });
+    delete(id) {
+        if(confirm("Hapus loker ini?")) {
+            this.db = this.db.filter(i => i.id !== id);
+            localStorage.setItem('loker_v4_db', JSON.stringify(this.db));
+            this.render();
+        }
     },
 
-    timeSince(date) {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        let interval = seconds / 31536000;
-        if (interval > 1) return Math.floor(interval) + " tahun lalu";
-        interval = seconds / 2592000;
-        if (interval > 1) return Math.floor(interval) + " bulan lalu";
-        interval = seconds / 86400;
-        if (interval > 1) return Math.floor(interval) + " hari lalu";
-        interval = seconds / 3600;
-        if (interval > 1) return Math.floor(interval) + " jam lalu";
-        return "Baru saja";
-    },
-
-    toggleFav(id) {
-        if(this.fav.includes(id)) this.fav = this.fav.filter(f => f !== id);
-        else this.fav.push(id);
-        localStorage.setItem('pro_fav_v3', JSON.stringify(this.fav));
-        this.render();
-    },
-
-    share(id) {
-        showToast("Link disalin!");
-        navigator.clipboard.writeText(window.location.href + "#" + id);
-    },
-
-    // Feature #18: Download Card as Image
-    download(id) {
-        const el = document.getElementById('card-' + id);
-        html2canvas(el, { backgroundColor: '#0a0a0c', scale: 2 }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `Loker-${id}.png`;
-            link.href = canvas.toDataURL();
-            link.click();
-        });
-    },
-
-    filter() {
-        const q = document.getElementById('mainSearch').value.toLowerCase();
-        const cat = document.getElementById('catFilter').value;
-        const res = this.db.filter(j => j.pos.toLowerCase().includes(q) || j.comp.toLowerCase().includes(q));
+    search() {
+        const q = document.getElementById('q').value.toLowerCase();
+        const c = document.getElementById('cat').value;
+        const res = this.db.filter(i => 
+            (i.pos.toLowerCase().includes(q) || i.comp.toLowerCase().includes(q) || i.loc.toLowerCase().includes(q)) &&
+            (c === "" || i.cat === c)
+        );
         this.render(res);
     },
 
-    hit(id) {
-        const idx = this.db.findIndex(j => j.id === id);
-        this.db[idx].clicks++;
-        localStorage.setItem('pro_loker_v3', JSON.stringify(this.db));
-        updateStats();
+    share(pos) {
+        navigator.clipboard.writeText(`Cek Loker Baru: ${pos} di ${window.location.href}`);
+        showToast("Link disalin ke Clipboard!");
     }
 };
 
-// --- GLOBAL UI HELPERS ---
-function toggleTheme() {
-    const b = document.documentElement;
-    const isDark = b.getAttribute('data-theme') === 'dark';
-    b.setAttribute('data-theme', isDark ? 'light' : 'dark');
-}
-
-function showLogin() {
-    const p = prompt("Admin Key:");
-    if(p === "admin123") {
-        document.getElementById('adminDash').classList.remove('hidden');
-        document.getElementById('adminBtn').classList.add('hidden');
-        updateStats();
+// ADMIN SECRET TRIGGER
+let clickCount = 0;
+function adminCounter() {
+    clickCount++;
+    if(clickCount === 9) {
+        const pass = prompt("Akses Terdeteksi. Masukkan Kode Admin:");
+        if(pass === "admin123") {
+            document.getElementById('adminArea').style.display = 'block';
+            showToast("🔓 Akses Admin Diberikan");
+            app.render();
+        }
+        clickCount = 0;
     }
 }
 
-function updateStats() {
-    document.getElementById('totalJobs').innerText = app.db.length;
-    document.getElementById('totalClicks').innerText = app.db.reduce((s, j) => s + (j.clicks || 0), 0);
+function logout() { document.getElementById('adminArea').style.display = 'none'; clickCount = 0; app.render(); }
+function toggleTheme() {
+    const b = document.documentElement;
+    b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 }
-
-function openModal() { document.getElementById('adminModal').style.display = 'block'; }
-function closeModal() { document.getElementById('adminModal').style.display = 'none'; }
+function openModal() { document.getElementById('jobModal').style.display = 'block'; }
+function closeModal() { document.getElementById('jobModal').style.display = 'none'; }
 function showToast(msg) {
     const t = document.getElementById('toast');
     t.innerText = msg;
-    t.style.transform = "translateY(0)";
-    setTimeout(() => t.style.transform = "translateY(100px)", 3000);
+    t.style.transform = "translateX(-50%) translateY(0)";
+    setTimeout(() => t.style.transform = "translateX(-50%) translateY(100px)", 3000);
 }
-function logout() { location.reload(); }
-
-window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); }
 
 app.init();
 </script>
