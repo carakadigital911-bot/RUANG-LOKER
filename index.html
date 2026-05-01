@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOKERINDO PRO V5.1 | Fixed & Premium</title>
+    <title>LOKERINDO PRO V5.2 | Monetized & Premium</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -53,7 +53,6 @@
             font-weight: 800; padding: 4px 10px; border-radius: 30px; display: inline-block; 
             margin-bottom: 1rem; width: fit-content; box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); animation: pulse 2s infinite;
         }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); } }
 
         .job-date { font-size: 0.75rem; color: var(--text-dim); margin-top: 5px; }
         
@@ -64,8 +63,14 @@
 
         .btn { padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center; text-decoration: none; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-wa { background: #22c55e; color: white; }
         
+        /* Tombol Lamar Dinamis */
+        .btn-wa { background: #22c55e; color: white; }
+        .btn-wa.ads-pending { background: #fbbf24; color: #000; animation: bounce 0.5s infinite alternate; }
+
+        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.03); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); } }
+
         .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); padding: 2rem; }
         .modal-content { background: var(--card); max-width: 600px; margin: auto; border-radius: 24px; padding: 2.5rem; border: 1px solid var(--border); overflow-y: auto; max-height: 90vh; }
         
@@ -91,15 +96,12 @@
         <h2>📊 Business Insights</h2>
         <button class="btn" style="background: var(--card)" onclick="logout()">Close</button>
     </div>
-    
     <div class="stats-grid">
         <div class="stat-item"><p style="color:var(--text-dim)">Total Jobs</p><h3 id="countJobs">0</h3></div>
         <div class="stat-item"><p style="color:var(--text-dim)">Visitors</p><h3 id="countVisitors">0</h3></div>
         <div class="stat-item"><p style="color:var(--text-dim)">WA Clicks</p><h3 id="countClicks">0</h3></div>
     </div>
-
     <div class="chart-box"><canvas id="trafficChart"></canvas></div>
-
     <div style="margin-top: 2rem; display: flex; gap: 10px;">
         <button class="btn btn-primary" onclick="openModal()">+ Post New Job</button>
     </div>
@@ -127,46 +129,19 @@
 
 <script>
 let isAdmin = false;
+const ADS_LINK = "https://tuxedoarbourannouncement.com/zhtirhypu?key=cc7341e331408d30ccf349b5b9539d67";
 
-// 4 Lowongan Kerja Contoh
 const dummyData = [
-    {
-        id: 101,
-        pos: "UI/UX DESIGNER SENIOR",
-        comp: "Creative Pixel Studio",
-        wa: "6281234567890",
-        time: Date.now(),
-        desc: "Kami mencari desainer yang berbakat untuk bergabung dengan tim kami!\n\nKualifikasi:\n• Pengalaman minimal 3 tahun di bidang UI/UX.\n• Menguasai Figma, Adobe XD, dan Photoshop.\n• Mampu membuat prototipe interaktif.\n• Memahami prinsip desain berpusat pada pengguna.\n• Terbiasa bekerja dengan tim developer menggunakan metodologi Agile."
-    },
-    {
-        id: 102,
-        pos: "SOCIAL MEDIA MANAGER",
-        comp: "Digital Spark Agency",
-        wa: "6281222333444",
-        time: Date.now() - 3600000,
-        desc: "Bangun brand awareness dan kelola komunitas kami di media sosial!\n\nTugas Utama:\n• Menyusun konten pilar untuk Instagram, TikTok, dan LinkedIn.\n• Menganalisis metrik mingguan dan bulanan.\n• Berkolaborasi dengan konten kreator dan influencer.\n• Mengelola anggaran iklan (Ads Manager).\n• Merespon interaksi audiens secara profesional."
-    },
-    {
-        id: 103,
-        pos: "FRONTEND DEVELOPER (REACT)",
-        comp: "Tech Solution Indonesia",
-        wa: "6281199887766",
-        time: Date.now() - 86400000,
-        desc: "Bergabunglah membangun dashboard aplikasi finansial masa depan.\n\nRequirement:\n• Mahir menggunakan React.js dan Next.js.\n• Pengalaman dengan Tailwind CSS atau Styled Components.\n• Memahami integrasi REST API dan GraphQL.\n• Memiliki portfolio project yang bisa ditunjukkan.\n• Bisa bekerja secara Remote maupun Hybrid."
-    },
-    {
-        id: 104,
-        pos: "ADMIN GUDANG & LOGISTIK",
-        comp: "PT. Maju Logistik Jaya",
-        wa: "6281555666777",
-        time: Date.now() - 172800000,
-        desc: "Dibutuhkan admin gudang yang teliti dan bertanggung jawab.\n\nJob Desc:\n• Mencatat barang masuk dan keluar di sistem.\n• Melakukan stock opname setiap akhir bulan.\n• Menyiapkan resi pengiriman ekspedisi.\n• Berkoordinasi dengan tim kurir dan gudang.\n• Memastikan gudang dalam keadaan rapi dan terorganisir."
-    }
+    { id: 101, pos: "UI/UX DESIGNER SENIOR", comp: "Creative Pixel Studio", wa: "6281234567890", time: Date.now(), desc: "• Pengalaman minimal 3 tahun.\n• Menguasai Figma, Adobe XD.\n• Mampu membuat prototipe interaktif." },
+    { id: 102, pos: "SOCIAL MEDIA MANAGER", comp: "Digital Spark Agency", wa: "6281222333444", time: Date.now() - 3600000, desc: "• Mengelola TikTok & Instagram.\n• Menganalisis metrik mingguan.\n• Kolaborasi dengan influencer." },
+    { id: 103, pos: "FRONTEND DEVELOPER (REACT)", comp: "Tech Solution", wa: "6281199887766", time: Date.now() - 86400000, desc: "• Mahir React.js & Next.js.\n• Pengalaman Tailwind CSS.\n• Integrasi REST API." },
+    { id: 104, pos: "ADMIN GUDANG", comp: "PT. Maju Logistik", wa: "6281555666777", time: Date.now() - 172800000, desc: "• Pencatatan barang masuk/keluar.\n• Stock opname bulanan.\n• Menyiapkan resi pengiriman." }
 ];
 
 const app = {
     db: JSON.parse(localStorage.getItem('loker_v5_db')) || dummyData,
     stats: JSON.parse(localStorage.getItem('loker_v5_stats')) || { visitors: 0, clicks: 0, daily: {} },
+    adsState: {}, // Melacak status klik per ID loker
 
     init() {
         this.trackVisitor();
@@ -177,7 +152,7 @@ const app = {
         const today = new Date().toISOString().split('T')[0];
         if (!sessionStorage.getItem('visited')) {
             this.stats.visitors++;
-            this.stats.daily[today] = (this.stats.daily[today] || { v: 0, c: 0 });
+            if(!this.stats.daily[today]) this.stats.daily[today] = {v:0, c:0};
             this.stats.daily[today].v++;
             sessionStorage.setItem('visited', 'true');
             this.saveStats();
@@ -185,31 +160,6 @@ const app = {
     },
 
     saveStats() { localStorage.setItem('loker_v5_stats', JSON.stringify(this.stats)); },
-
-    aiProcess() {
-        const raw = document.getElementById('rawText').value;
-        if(!raw) return;
-        let clean = raw.trim().replace(/\s\s+/g, ' ');
-        clean = clean.split('\n').map(line => (line.length > 5 && !line.startsWith('•')) ? "• " + line.trim() : line).join('\n');
-        document.getElementById('fPos').value = raw.split('\n')[0].substring(0, 35).toUpperCase();
-        document.getElementById('fDesc').value = clean;
-    },
-
-    save() {
-        const item = {
-            id: Date.now(),
-            pos: document.getElementById('fPos').value,
-            comp: document.getElementById('fComp').value,
-            wa: document.getElementById('fWA').value,
-            desc: document.getElementById('fDesc').value,
-            time: Date.now(),
-            clicks: 0
-        };
-        this.db.unshift(item);
-        localStorage.setItem('loker_v5_db', JSON.stringify(this.db));
-        closeModal();
-        this.render();
-    },
 
     render() {
         const grid = document.getElementById('lokerGrid');
@@ -220,6 +170,7 @@ const app = {
         this.db.forEach((item) => {
             const isNew = (now - item.time) < 86400000;
             const formattedDate = new Date(item.time).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            const hasClickedAds = this.adsState[item.id] || false;
             
             grid.innerHTML += `
                 <div class="job-card">
@@ -234,27 +185,60 @@ const app = {
                     </div>
 
                     <div style="display:flex; gap:10px; margin-top:auto;">
-                        <a href="https://wa.me/${item.wa}" target="_blank" class="btn btn-wa" onclick="app.clickWA('${item.id}')">Lamar Sekarang</a>
+                        <button id="btn-wa-${item.id}" 
+                                class="btn btn-wa ${!hasClickedAds ? '' : ''}" 
+                                onclick="app.handleApply('${item.id}', '${item.wa}', '${item.pos}')">
+                            ${!hasClickedAds ? 'Lamar Sekarang' : 'Lanjut ke WhatsApp'}
+                        </button>
                         ${isAdmin ? `<button class="btn" style="background:var(--bg); color:red" onclick="app.delete(${item.id})">Hapus</button>` : ''}
                     </div>
                 </div>
             `;
         });
-        
         if(isAdmin) this.updateAdminUI();
     },
 
-    clickWA(id) {
-        const index = this.db.findIndex(x => x.id == id);
-        if(index > -1) {
-            this.db[index].clicks = (this.db[index].clicks || 0) + 1;
+    handleApply(id, wa, pos) {
+        if (!this.adsState[id]) {
+            // KLIK PERTAMA: Buka Iklan
+            window.open(ADS_LINK, '_blank');
+            this.adsState[id] = true; // Tandai sudah klik iklan
+            
+            // Ubah tampilan tombol tanpa render ulang agar smooth
+            const btn = document.getElementById(`btn-wa-${id}`);
+            btn.innerText = "Lanjut ke WhatsApp";
+            btn.classList.add('ads-pending');
+        } else {
+            // KLIK KEDUA: Buka WA & Track Stats
+            const waUrl = `https://wa.me/${wa}?text=Halo%20saya%20tertarik%20dengan%20loker%20${encodeURIComponent(pos)}`;
+            window.open(waUrl, '_blank');
+            
             this.stats.clicks++;
             const today = new Date().toISOString().split('T')[0];
             if(!this.stats.daily[today]) this.stats.daily[today] = {v:0, c:0};
             this.stats.daily[today].c++;
             this.saveStats();
-            localStorage.setItem('loker_v5_db', JSON.stringify(this.db));
+            
+            // Opsional: Reset state setelah beberapa detik jika ingin iklan muncul lagi nanti
+            // setTimeout(() => { this.adsState[id] = false; this.render(); }, 60000);
         }
+    },
+
+    aiProcess() {
+        const raw = document.getElementById('rawText').value;
+        if(!raw) return;
+        let clean = raw.trim().replace(/\s\s+/g, ' ');
+        clean = clean.split('\n').map(line => (line.length > 5 && !line.startsWith('•')) ? "• " + line.trim() : line).join('\n');
+        document.getElementById('fPos').value = raw.split('\n')[0].substring(0, 35).toUpperCase();
+        document.getElementById('fDesc').value = clean;
+    },
+
+    save() {
+        const item = { id: Date.now(), pos: document.getElementById('fPos').value, comp: document.getElementById('fComp').value, wa: document.getElementById('fWA').value, desc: document.getElementById('fDesc').value, time: Date.now(), clicks: 0 };
+        this.db.unshift(item);
+        localStorage.setItem('loker_v5_db', JSON.stringify(this.db));
+        closeModal();
+        this.render();
     },
 
     delete(id) {
@@ -306,13 +290,8 @@ function adminCounter() {
 function toggleReadMore(id) {
     const el = document.getElementById(`desc-${id}`);
     const btn = el.nextElementSibling;
-    if(el.classList.contains('collapsed')) {
-        el.classList.remove('collapsed');
-        btn.innerText = "Sembunyikan";
-    } else {
-        el.classList.add('collapsed');
-        btn.innerText = "Tampilkan selengkapnya...";
-    }
+    if(el.classList.contains('collapsed')) { el.classList.remove('collapsed'); btn.innerText = "Sembunyikan"; }
+    else { el.classList.add('collapsed'); btn.innerText = "Tampilkan selengkapnya..."; }
 }
 
 function logout() { location.reload(); }
@@ -323,10 +302,7 @@ function toggleTheme() {
     b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 }
 
-// Jalankan App
-document.addEventListener('DOMContentLoaded', () => {
-    app.init();
-});
+document.addEventListener('DOMContentLoaded', () => app.init());
 </script>
 </body>
 </html>
