@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOKERINDO PRO | Premium Career Gateway</title>
+    <title>LOKERINDO PRO V5 | AI Dashboard & Analytics</title>
+    
+    <!-- Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
@@ -14,7 +15,7 @@
             --card: #16161e; --border: rgba(255, 255, 255, 0.08);
             --primary: #6366f1; --primary-glow: rgba(99, 102, 241, 0.3);
             --accent: #10b981; --text: #ffffff; --text-dim: #94a3b8;
-            --radius: 18px;
+            --radius: 20px;
         }
 
         [data-theme="light"] {
@@ -24,86 +25,55 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; scroll-behavior: smooth; transition: 0.4s; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; transition: 0.4s; }
 
-        /* HEADER */
         header {
-            position: sticky; top: 0; z-index: 1000;
-            background: var(--glass); backdrop-filter: blur(15px);
-            padding: 1.2rem 8%; display: flex; justify-content: space-between;
-            align-items: center; border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000; background: var(--glass); 
+            backdrop-filter: blur(15px); padding: 1rem 8%; display: flex; 
+            justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);
         }
-        .logo { cursor: pointer; user-select: none; transition: 0.3s; }
-        .logo:active { transform: scale(0.95); }
-        .logo h1 { 
-            font-weight: 800; font-size: 1.6rem;
-            background: linear-gradient(90deg, var(--primary), #a855f7);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .logo { cursor: pointer; user-select: none; }
+        .logo h1 { font-weight: 800; font-size: 1.5rem; background: linear-gradient(90deg, var(--primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* SEARCH SECTION */
-        .search-area { padding: 3rem 8% 1rem; display: flex; gap: 1rem; flex-wrap: wrap; }
-        .input-box {
-            flex: 1; min-width: 280px; background: var(--card);
-            border: 1px solid var(--border); padding: 1.1rem 1.5rem;
-            border-radius: 15px; color: var(--text); outline: none; transition: 0.3s;
-        }
-        .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+        /* DASHBOARD ADMIN */
+        .admin-panel { background: var(--card); border: 1px solid var(--primary); border-radius: var(--radius); padding: 2rem; margin: 2rem 8%; display: none; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-item { background: var(--bg); padding: 1.5rem; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
+        .stat-item h3 { font-size: 2rem; color: var(--primary); }
+        .chart-box { background: var(--bg); padding: 1rem; border-radius: 15px; height: 300px; margin-top: 1rem; border: 1px solid var(--border); }
 
-        /* JOB CARD */
-        .loker-list { padding: 1rem 8% 5rem; display: grid; gap: 1.5rem; }
-        .job-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 22px; padding: 2rem; position: relative;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: fadeIn 0.6s ease-out forwards;
+        /* LOKER CARD */
+        .loker-grid { padding: 1rem 8% 5rem; display: grid; gap: 2rem; }
+        .job-card { 
+            background: var(--card); border: 1px solid var(--border); border-radius: 24px; 
+            padding: 2rem; position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .job-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 20px 40px -15px var(--primary-glow); }
         
-        .job-card:hover { 
-            border-color: var(--primary); 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            transform: translateY(-5px);
+        .badge-new { 
+            background: linear-gradient(90deg, #f43f5e, #fbbf24); color: white; font-size: 0.65rem; 
+            font-weight: 800; padding: 4px 10px; border-radius: 30px; display: inline-block; 
+            margin-bottom: 1rem; box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); animation: pulse 2s infinite;
         }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); } }
 
-        .badge {
-            font-size: 0.65rem; font-weight: 800; background: rgba(99, 102, 241, 0.15);
-            color: var(--primary); padding: 5px 14px; border-radius: 30px; margin-bottom: 1rem; display: inline-block;
-        }
+        .job-date { font-size: 0.75rem; color: var(--text-dim); display: flex; align-items: center; gap: 5px; margin-top: 5px; }
+        
+        /* READ MORE FEATURE */
+        .desc-container { position: relative; margin: 1.5rem 0; font-size: 0.95rem; line-height: 1.7; color: var(--text-dim); }
+        .desc-content.collapsed { max-height: 100px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); }
+        .btn-readmore { background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 10px; display: none; }
+        .desc-content.collapsed + .btn-readmore { display: block; }
 
-        .btn {
-            padding: 0.9rem 1.6rem; border-radius: 12px; font-weight: 700;
-            cursor: pointer; border: none; transition: 0.3s; display: inline-flex;
-            align-items: center; gap: 10px; justify-content: center; font-size: 0.9rem;
-        }
+        .btn { padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-wa { background: #22c55e; color: white; text-decoration: none; }
-        .btn-wa:hover { box-shadow: 0 10px 20px -5px rgba(34, 197, 94, 0.4); }
-
-        /* ADMIN HIDDEN PANEL */
-        .admin-panel {
-            background: var(--card); border: 1px solid var(--primary);
-            border-radius: 20px; padding: 2rem; margin: 2rem 8%;
-            display: none; /* Default Hidden */
-        }
-
-        /* TOAST */
-        .toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: var(--primary); color: white; padding: 12px 30px;
-            border-radius: 50px; font-weight: 600; transition: 0.5s; z-index: 10000;
-        }
-
-        /* MODAL */
-        .modal {
-            display: none; position: fixed; inset: 0; z-index: 9999;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
-            padding: 2rem;
-        }
-        .modal-content {
-            background: var(--card); max-width: 650px; margin: auto;
-            border-radius: 25px; padding: 2.5rem; border: 1px solid var(--border);
-        }
+        
+        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); padding: 2rem; }
+        .modal-content { background: var(--card); max-width: 600px; margin: auto; border-radius: 24px; padding: 2.5rem; border: 1px solid var(--border); overflow-y: auto; max-height: 90vh; }
+        
+        .ai-box { background: rgba(99, 102, 241, 0.05); border: 2px dashed var(--primary); padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; }
+        .input-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); outline: none; margin-bottom: 10px; }
 
         .hidden { display: none !important; }
     </style>
@@ -114,182 +84,229 @@
     <div class="logo" id="logoSecret" onclick="adminCounter()">
         <h1>LOKERINDO.PRO</h1>
     </div>
-    <div style="display: flex; gap: 1rem;">
+    <div style="display: flex; gap: 10px;">
         <button class="btn" style="background: var(--card)" onclick="toggleTheme()">🌓</button>
     </div>
 </header>
 
-<!-- Dashboard Admin (Muncul setelah 9 klik logo) -->
+<!-- DASHBOARD ADMIN (HIDDEN) -->
 <div id="adminArea" class="admin-panel">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2>🔐 Admin Control Center</h2>
-        <button class="btn" style="background: var(--danger)" onclick="logout()">Tutup</button>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+        <h2>📊 Business Insights</h2>
+        <button class="btn" style="background: var(--card)" onclick="logout()">Close</button>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-        <div style="background: var(--bg); padding: 1.5rem; border-radius: 15px;">
-            <p style="color: var(--text-dim)">Total Loker</p>
-            <h1 id="countJobs">0</h1>
-        </div>
-        <button class="btn btn-primary" onclick="openModal()">+ Posting Loker Baru</button>
+    
+    <div class="stats-grid">
+        <div class="stat-item"><p style="color:var(--text-dim)">Total Jobs</p><h3 id="countJobs">0</h3></div>
+        <div class="stat-item"><p style="color:var(--text-dim)">Web Visitors</p><h3 id="countVisitors">0</h3></div>
+        <div class="stat-item"><p style="color:var(--text-dim)">WhatsApp Clicks</p><h3 id="countClicks">0</h3></div>
+    </div>
+
+    <div class="chart-box">
+        <canvas id="trafficChart"></canvas>
+    </div>
+
+    <div style="margin-top: 2rem; display: flex; gap: 10px;">
+        <button class="btn btn-primary" onclick="openModal()">+ Post Lowongan Baru</button>
+        <button class="btn" style="background:var(--bg)" onclick="exportData()">💾 Backup Data</button>
     </div>
 </div>
 
-<section class="search-area">
-    <input type="text" id="q" class="input-box" placeholder="Cari posisi, perusahaan, atau lokasi..." onkeyup="app.search()">
-    <select id="cat" class="input-box" onchange="app.search()" style="flex: 0.5;">
-        <option value="">Semua Kategori</option>
-    </select>
-</section>
+<main id="lokerGrid" class="loker-grid"></main>
 
-<main id="mainGrid" class="loker-list"></main>
-
-<!-- MODAL FORM -->
+<!-- MODAL INPUT -->
 <div id="jobModal" class="modal">
     <div class="modal-content">
-        <h3>✨ Asisten AI Postingan</h3><br>
-        <textarea id="aiText" class="input-box" style="width: 100%; margin-bottom: 1rem;" rows="4" placeholder="Tempel teks berantakan loker di sini..."></textarea>
-        <button class="btn btn-primary" style="width: 100%; margin-bottom: 2rem;" onclick="app.aiFormat()">🪄 Rapikan Teks Sekarang</button>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <input type="text" id="fPos" class="input-box" placeholder="Posisi">
-            <input type="text" id="fComp" class="input-box" placeholder="Perusahaan">
-            <input type="text" id="fLoc" class="input-box" placeholder="Lokasi">
-            <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (62...)">
+        <h3>🪄 AI Job Formatter</h3><br>
+        <div class="ai-box">
+            <textarea id="rawText" class="input-box" rows="4" placeholder="Tempel teks loker berantakan..."></textarea>
+            <button class="btn btn-primary" style="width: 100%" onclick="app.aiProcess()">✨ Bersihkan & Rapikan</button>
         </div>
-        <textarea id="fDesc" class="input-box" style="width: 100%; margin-top: 1rem;" rows="4" placeholder="Deskripsi Rapi..."></textarea>
         
-        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-            <button class="btn btn-primary" style="flex: 1" onclick="app.save()">Terbitkan Loker</button>
-            <button class="btn" onclick="closeModal()">Batal</button>
+        <input type="text" id="fPos" class="input-box" placeholder="Posisi">
+        <input type="text" id="fComp" class="input-box" placeholder="Perusahaan">
+        <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (62...)">
+        <textarea id="fDesc" class="input-box" rows="5" placeholder="Deskripsi Rapi..."></textarea>
+        
+        <div style="display: flex; gap: 10px; margin-top: 1rem;">
+            <button class="btn btn-primary" style="flex: 1" onclick="app.save()">Terbitkan</button>
+            <button class="btn" style="background:var(--bg)" onclick="closeModal()">Batal</button>
         </div>
     </div>
 </div>
 
-<div id="toast" class="toast">Aksi Berhasil!</div>
-
 <script>
-// DATA AWAL (Contoh 5 Lowongan Terposting)
-const initialData = [
-    { id: 1, pos: "Frontend Engineer (React)", comp: "PT. Tekno Kreatif", loc: "Jakarta", wa: "628123456789", desc: "• Menguasai React & Tailwind CSS\n• Pengalaman 2 tahun\n• Gaji Kompetitif & Bonus", cat: "IT / Programmer", time: Date.now() },
-    { id: 2, pos: "Admin Gudang & Inventori", comp: "Logistik Jaya Abadi", loc: "Surabaya", wa: "628987654321", desc: "• Pria/Wanita max 28th\n• Teliti dalam pendataan barang\n• Domisili Surabaya diutamakan", cat: "Warehouse", time: Date.now() - 3600000 },
-    { id: 3, pos: "Social Media Specialist", comp: "Creative Agency X", loc: "Bandung", wa: "62811223344", desc: "• Mengelola TikTok & Instagram\n• Bisa editing CapCut/Canva\n• Kreatif & Up-to-date tren", cat: "Digital Marketing", time: Date.now() - 86400000 },
-    { id: 4, pos: "Barista Part Time", comp: "Kopi Senja", loc: "Malang", wa: "62855667788", desc: "• Shift pagi/sore\n• Ramah & Komunikatif\n• Training disediakan", cat: "Barista", time: Date.now() - 172800000 },
-    { id: 5, pos: "Staff Accounting", comp: "PT. Keuangan Makmur", loc: "Medan", wa: "62899001122", desc: "• Lulusan S1 Akuntansi\n• Menguasai MS Excel tingkat lanjut\n• Jujur & Bertanggung jawab", cat: "Accounting", time: Date.now() - 259200000 }
-];
-
-const categories = ["IT / Programmer", "Digital Marketing", "Warehouse", "Accounting", "Barista", "Admin", "Sales", "Customer Service", "Designer", "Driver"];
-
+/**
+ * LOKERINDO PRO CORE ENGINE V5
+ */
 const app = {
-    db: JSON.parse(localStorage.getItem('loker_v4_db')) || initialData,
-    
+    db: JSON.parse(localStorage.getItem('loker_v5_db')) || [],
+    stats: JSON.parse(localStorage.getItem('loker_v5_stats')) || { visitors: 0, clicks: 0, daily: {} },
+
     init() {
-        const catSelect = document.getElementById('cat');
-        categories.sort().forEach(c => catSelect.innerHTML += `<option value="${c}">${c}</option>`);
+        this.trackVisitor();
         this.render();
     },
 
-    render(data = this.db) {
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = "";
-        data.forEach(item => {
-            grid.innerHTML += `
-                <div class="job-card">
-                    <span class="badge">${item.cat}</span>
-                    <h2 style="margin-bottom:0.5rem">${item.pos}</h2>
-                    <p style="color:var(--text-dim); margin-bottom:1.5rem">🏢 ${item.comp} • 📍 ${item.loc}</p>
-                    <div style="white-space:pre-line; color:var(--text-dim); font-size:0.9rem; margin-bottom:2rem">${item.desc}</div>
-                    <div style="display:flex; gap:1rem; flex-wrap:wrap">
-                        <a href="https://wa.me/${item.wa}?text=Halo%20Admin%20${item.comp},%20saya%20ingin%20melamar%20posisi%20${item.pos}" 
-                           target="_blank" class="btn btn-wa">Lamar via WhatsApp</a>
-                        <button class="btn" style="background:var(--bg)" onclick="app.share('${item.pos}')">📤 Share</button>
-                        ${document.getElementById('adminArea').style.display === 'block' ? `<button class="btn" style="background:var(--bg); color:red" onclick="app.delete(${item.id})">Hapus</button>` : ''}
-                    </div>
-                </div>
-            `;
-        });
-        document.getElementById('countJobs').innerText = this.db.length;
+    trackVisitor() {
+        const today = new Date().toISOString().split('T')[0];
+        if (!sessionStorage.getItem('visited')) {
+            this.stats.visitors++;
+            this.stats.daily[today] = (this.stats.daily[today] || { v: 0, c: 0 });
+            this.stats.daily[today].v++;
+            sessionStorage.setItem('visited', 'true');
+            this.saveStats();
+        }
     },
 
-    aiFormat() {
-        const raw = document.getElementById('aiText').value;
+    saveStats() { localStorage.setItem('loker_v5_stats', JSON.stringify(this.stats)); },
+
+    aiProcess() {
+        const raw = document.getElementById('rawText').value;
         if(!raw) return;
-        showToast("🪄 AI sedang merapikan...");
-        setTimeout(() => {
-            const lines = raw.split('\n');
-            document.getElementById('fPos').value = lines[0].substring(0, 30).toUpperCase();
-            document.getElementById('fDesc').value = raw.replace(/\.\s/g, '.\n• ').trim();
-            showToast("Selesai!");
-        }, 500);
+
+        // AI Formatting Simulation
+        let clean = raw.trim()
+            .replace(/\s\s+/g, ' ') // Hapus spasi ganda
+            .replace(/([.!?])\s*(?=[a-z])/g, (m, p) => p + " ") // Pastikan spasi setelah titik
+            .replace(/(?:^|\n)([a-z])/g, m => m.toUpperCase()); // Kapital awal kalimat
+
+        // Deteksi Poin List
+        clean = clean.split('\n').map(line => {
+            if(line.length > 5 && !line.startsWith('•')) return "• " + line.trim();
+            return line;
+        }).join('\n');
+
+        document.getElementById('fPos').value = raw.split('\n')[0].substring(0, 35).toUpperCase();
+        document.getElementById('fDesc').value = clean;
     },
 
     save() {
-        const newItem = {
+        const item = {
             id: Date.now(),
             pos: document.getElementById('fPos').value,
             comp: document.getElementById('fComp').value,
-            loc: document.getElementById('fLoc').value,
             wa: document.getElementById('fWA').value,
             desc: document.getElementById('fDesc').value,
-            cat: document.getElementById('cat').value || "Lainnya",
-            time: Date.now()
+            time: Date.now(),
+            clicks: 0
         };
-        this.db.unshift(newItem);
-        localStorage.setItem('loker_v4_db', JSON.stringify(this.db));
+        this.db.unshift(item);
+        localStorage.setItem('loker_v5_db', JSON.stringify(this.db));
         closeModal();
         this.render();
     },
 
+    render() {
+        const grid = document.getElementById('lokerGrid');
+        grid.innerHTML = "";
+        
+        const now = Date.now();
+
+        this.db.forEach((item, i) => {
+            const isNew = (now - item.time) < 86400000; // 24 jam
+            const formattedDate = new Date(item.time).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            grid.innerHTML += `
+                <div class="job-card">
+                    ${isNew ? '<span class="badge-new">✨ PREMIUM NEW</span>' : ''}
+                    <h2 style="font-size:1.4rem;">${item.pos}</h2>
+                    <p style="color:var(--text-dim); margin-bottom:5px;">🏢 ${item.comp}</p>
+                    <div class="job-date">📅 Posted on ${formattedDate}</div>
+                    
+                    <div class="desc-container">
+                        <div class="desc-content collapsed" id="desc-${item.id}">${item.desc.replace(/\n/g, '<br>')}</div>
+                        <button class="btn-readmore" onclick="toggleReadMore(${item.id})">Tampilkan selengkapnya...</button>
+                    </div>
+
+                    <div style="display:flex; gap:10px; margin-top:2rem;">
+                        <a href="https://wa.me/${item.wa}" target="_blank" class="btn btn-wa" onclick="app.clickWA(${i})">Lamar Sekarang</a>
+                        ${isAdmin ? `<button class="btn" style="background:var(--bg); color:red" onclick="app.delete(${item.id})">Hapus</button>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        
+        if(isAdmin) this.updateAdminUI();
+    },
+
+    clickWA(i) {
+        this.db[i].clicks = (this.db[i].clicks || 0) + 1;
+        this.stats.clicks++;
+        const today = new Date().toISOString().split('T')[0];
+        this.stats.daily[today].c++;
+        this.saveStats();
+        localStorage.setItem('loker_v5_db', JSON.stringify(this.db));
+    },
+
     delete(id) {
-        if(confirm("Hapus loker ini?")) {
-            this.db = this.db.filter(i => i.id !== id);
-            localStorage.setItem('loker_v4_db', JSON.stringify(this.db));
+        if(confirm("Hapus loker?")) {
+            this.db = this.db.filter(x => x.id !== id);
+            localStorage.setItem('loker_v5_db', JSON.stringify(this.db));
             this.render();
         }
     },
 
-    search() {
-        const q = document.getElementById('q').value.toLowerCase();
-        const c = document.getElementById('cat').value;
-        const res = this.db.filter(i => 
-            (i.pos.toLowerCase().includes(q) || i.comp.toLowerCase().includes(q) || i.loc.toLowerCase().includes(q)) &&
-            (c === "" || i.cat === c)
-        );
-        this.render(res);
+    updateAdminUI() {
+        document.getElementById('countJobs').innerText = this.db.length;
+        document.getElementById('countVisitors').innerText = this.stats.visitors;
+        document.getElementById('countClicks').innerText = this.stats.clicks;
+        this.drawChart();
     },
 
-    share(pos) {
-        navigator.clipboard.writeText(`Cek Loker Baru: ${pos} di ${window.location.href}`);
-        showToast("Link disalin ke Clipboard!");
+    drawChart() {
+        const ctx = document.getElementById('trafficChart').getContext('2d');
+        const days = Object.keys(this.stats.daily).slice(-7); // Ambil 7 hari terakhir
+        
+        if(window.myChart) window.myChart.destroy();
+        
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [
+                    { label: 'Visitors', data: days.map(d => this.stats.daily[d].v), borderColor: '#6366f1', tension: 0.4 },
+                    { label: 'WA Clicks', data: days.map(d => this.stats.daily[d].c), borderColor: '#10b981', tension: 0.4 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
     }
 };
 
-// ADMIN SECRET TRIGGER
+// UI FUNCTIONS
 let clickCount = 0;
 function adminCounter() {
     clickCount++;
     if(clickCount === 9) {
-        const pass = prompt("Akses Terdeteksi. Masukkan Kode Admin:");
-        if(pass === "admin123") {
+        if(prompt("Admin Access:") === "admin123") {
+            isAdmin = true;
             document.getElementById('adminArea').style.display = 'block';
-            showToast("🔓 Akses Admin Diberikan");
             app.render();
         }
         clickCount = 0;
     }
 }
 
-function logout() { document.getElementById('adminArea').style.display = 'none'; clickCount = 0; app.render(); }
+function toggleReadMore(id) {
+    const el = document.getElementById(`desc-${id}`);
+    const btn = el.nextElementSibling;
+    if(el.classList.contains('collapsed')) {
+        el.classList.remove('collapsed');
+        btn.innerText = "Sembunyikan";
+    } else {
+        el.classList.add('collapsed');
+        btn.innerText = "Tampilkan selengkapnya...";
+    }
+}
+
+let isAdmin = false;
+function logout() { location.reload(); }
+function openModal() { document.getElementById('jobModal').style.display = 'block'; }
+function closeModal() { document.getElementById('jobModal').style.display = 'none'; }
 function toggleTheme() {
     const b = document.documentElement;
     b.setAttribute('data-theme', b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-}
-function openModal() { document.getElementById('jobModal').style.display = 'block'; }
-function closeModal() { document.getElementById('jobModal').style.display = 'none'; }
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerText = msg;
-    t.style.transform = "translateX(-50%) translateY(0)";
-    setTimeout(() => t.style.transform = "translateX(-50%) translateY(100px)", 3000);
 }
 
 app.init();
