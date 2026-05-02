@@ -7,7 +7,6 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Library OCR untuk Image-to-Text -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 
     <style>
@@ -132,7 +131,7 @@
         </div>
 
         <input type="text" id="fPos" class="input-box" placeholder="Posisi Pekerjaan">
-        <input type="text" id="fSalary" class="input-box" placeholder="Kisaran Gaji">
+        <input type="text" id="fSalary" class="input-box" placeholder="Gaji (Contoh: 2000000)">
         <input type="text" id="fLoc" class="input-box" placeholder="Lokasi (Kota/Wilayah)">
         <input type="text" id="fComp" class="input-box" placeholder="Nama Perusahaan">
         <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (Isi Manual: 62...)">
@@ -147,8 +146,8 @@
 
 <script>
 /**
- * LOKERINDO PRO ENGINE V8.3
- * RESTORASI USER VIEW V5.2 + TRIPLE-FIELD VISION
+ * LOKERINDO PRO ENGINE V8.4
+ * TAMPILAN USER TERKUNCI + FIX RENDER GAJI & LOKASI
  */
 let isAdmin = false;
 const ADS_LINK = "https://tuxedoarbourannouncement.com/zhtirhypu?key=cc7341e331408d30ccf349b5b9539d67";
@@ -173,6 +172,15 @@ const app = {
 
     saveStats() { localStorage.setItem('loker_v5_stats', JSON.stringify(this.stats)); },
 
+    // FUNGSI KHUSUS UNTUK MEMFORMAT ANGKA MENJADI RP & TITIK
+    formatRp(num) {
+        if (!num) return "Gaji tidak dicantumkan";
+        // Hanya menyaring angkanya saja
+        const parsed = parseInt(num.toString().replace(/\D/g, ''));
+        if (isNaN(parsed)) return num; // Jika tidak ada angka, kembalikan teks aslinya
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(parsed);
+    },
+
     render() {
         const grid = document.getElementById('lokerGrid');
         if(!grid) return;
@@ -184,11 +192,13 @@ const app = {
             const formattedDate = new Date(item.time).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
             const hasClickedAds = this.adsState[item.id] || false;
             
+            // PENAMBAHAN LOKASI DAN GAJI DI DALAM HTML (TANPA MERUBAH CSS LAMA)
             grid.innerHTML += `
                 <div class="job-card">
                     ${isNew ? '<span class="badge-new">✨ PREMIUM NEW</span>' : ''}
                     <h2 style="font-size:1.4rem;">${item.pos}</h2>
-                    <p style="color:var(--text-dim); margin-bottom:5px;">🏢 ${item.comp}</p>
+                    <p style="color:var(--accent); font-size:1.1rem; font-weight:800; margin-bottom:5px;">${this.formatRp(item.sal)}</p>
+                    <p style="color:var(--text-dim); margin-bottom:5px;">🏢 ${item.comp || '-'} &nbsp;|&nbsp; 📍 ${item.loc || 'Tidak dicantumkan'}</p>
                     <div class="job-date">📅 Posted: ${formattedDate}</div>
                     
                     <div class="desc-container">
@@ -230,8 +240,8 @@ const app = {
         const item = { 
             id: Date.now(), 
             pos: document.getElementById('fPos').value, 
-            sal: document.getElementById('fSalary').value, // Menampung gaji dari Scan 1
-            loc: document.getElementById('fLoc').value,     // Menampung lokasi dari Scan 1
+            sal: document.getElementById('fSalary').value, 
+            loc: document.getElementById('fLoc').value,     
             comp: document.getElementById('fComp').value, 
             wa: document.getElementById('fWA').value, 
             desc: document.getElementById('fDesc').value, 
@@ -258,7 +268,7 @@ const app = {
     }
 };
 
-/** VISION ENGINE (FIXED TRIPLE-FIELD) **/
+/** VISION ENGINE **/
 async function runVisionAI(input, mode) {
     if (!input.files || !input.files[0]) return;
     const loader = document.getElementById(mode === 'main' ? 'loadMain' : 'loadDesc');
@@ -277,18 +287,18 @@ async function runVisionAI(input, mode) {
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 2);
 
         if (mode === 'main') {
-            // Field 1: Posisi
             document.getElementById('fPos').value = lines[0] ? lines[0].toUpperCase() : "";
             
-            // Field 2: Gaji (Regex mendeteksi Rp atau nominal angka jutaan)
+            // Tangkap angka untuk gaji dan buang hurufnya
             const salLine = lines.find(l => /(rp|gaji|jt|fee|\d{6,})/i.test(l));
-            if(salLine) document.getElementById('fSalary').value = salLine;
+            if(salLine) {
+                const numbersOnly = salLine.replace(/\D/g, '');
+                document.getElementById('fSalary').value = numbersOnly ? numbersOnly : salLine;
+            }
 
-            // Field 3: Lokasi (Regex mendeteksi nama wilayah/kota)
             const locLine = lines.find(l => /(jakarta|surabaya|bandung|medan|bekasi|tangerang|gading|utara|selatan|pusat|timur|barat|bogor|depok)/i.test(l));
             if(locLine) document.getElementById('fLoc').value = locLine;
         } else {
-            // Append Deskripsi (Tidak menghapus teks yang sudah ada)
             const current = document.getElementById('fDesc').value;
             document.getElementById('fDesc').value = current ? current + "\n\n" + text.trim() : text.trim();
         }
