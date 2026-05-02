@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOKERINDO PRO V7 | Neural Vision AI</title>
+    <title>LOKERINDO PRO V8 | Dual-Vision AI</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Library OCR Utama -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 
     <style>
@@ -34,37 +33,33 @@
         }
         .logo h1 { font-weight: 800; font-size: 1.5rem; background: linear-gradient(90deg, var(--primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
 
-        /* ADMIN PANEL */
-        .admin-panel { background: var(--card); border: 1px solid var(--primary); border-radius: var(--radius); padding: 2rem; margin: 2rem 8%; display: none; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-        .stat-item { background: var(--bg); padding: 1.5rem; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
-        .stat-item h3 { font-size: 2rem; color: var(--primary); }
-        .chart-box { background: var(--bg); padding: 1rem; border-radius: 15px; height: 300px; margin-top: 1rem; border: 1px solid var(--border); }
-
         /* USER UI (LOCKED) */
         .loker-grid { padding: 1rem 8% 5rem; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
         .job-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; position: relative; transition: 0.4s; display: flex; flex-direction: column; }
         .job-card:hover { transform: translateY(-8px); border-color: var(--primary); }
-        .badge-new { background: linear-gradient(90deg, #f43f5e, #fbbf24); color: white; font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 30px; display: inline-block; margin-bottom: 1rem; width: fit-content; animation: pulse 2s infinite; }
         .desc-container { position: relative; margin: 1.5rem 0; font-size: 0.95rem; line-height: 1.7; color: var(--text-dim); flex-grow: 1; }
         .desc-content.collapsed { max-height: 120px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); }
         .btn-readmore { background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 10px; display: none; }
         .desc-content.collapsed + .btn-readmore { display: block; }
         .btn { padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center; text-decoration: none; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-wa { background: #22c55e; color: white; }
+        .btn-wa { background: #22c55e; color: white; width: 100%; margin-top: auto; }
         .btn-wa.ads-pending { background: #fbbf24; color: #000; animation: bounce 0.5s infinite alternate; }
 
         @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.03); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* MODAL ADMIN */
-        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); padding: 2rem; overflow-y: auto; }
-        .modal-content { background: var(--card); max-width: 600px; margin: auto; border-radius: 24px; padding: 2.5rem; border: 1px solid var(--border); }
-        .vision-box { background: rgba(99, 102, 241, 0.05); border: 2px dashed var(--primary); padding: 2rem; border-radius: 15px; margin-bottom: 1.5rem; text-align: center; }
-        .input-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); outline: none; margin-bottom: 10px; }
+        /* ADMIN PANEL */
+        .admin-panel { background: var(--card); border: 1px solid var(--primary); border-radius: var(--radius); padding: 2rem; margin: 2rem 8%; display: none; }
+
+        /* MODAL DUAL VISION */
+        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); padding: 1.5rem; overflow-y: auto; }
+        .modal-content { background: var(--card); max-width: 700px; margin: auto; border-radius: 24px; padding: 2rem; border: 1px solid var(--border); }
         
-        #ocrStatus { display: none; margin-top: 10px; font-weight: bold; color: var(--accent); font-size: 0.85rem; }
+        .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 1.5rem; }
+        .vision-box { background: rgba(99, 102, 241, 0.05); border: 2px dashed var(--primary); padding: 1rem; border-radius: 15px; text-align: center; }
+        .vision-box p { font-size: 0.7rem; margin-bottom: 8px; font-weight: 600; color: var(--text-dim); }
+        
+        .input-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text); outline: none; margin-bottom: 10px; }
+        .ocr-status { font-size: 0.7rem; color: var(--accent); margin-top: 5px; font-weight: bold; display: none; }
 
         .hidden { display: none !important; }
     </style>
@@ -77,38 +72,47 @@
 </header>
 
 <div id="adminArea" class="admin-panel">
-    <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
-        <h2>📊 Business Insights</h2>
-        <button class="btn" onclick="logout()">Close</button>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>🔐 Management Control</h2>
+        <button class="btn" onclick="logout()">Logout</button>
     </div>
-    <div class="stats-grid">
-        <div class="stat-item"><p>Total Jobs</p><h3 id="countJobs">0</h3></div>
-        <div class="stat-item"><p>Visitors</p><h3 id="countVisitors">0</h3></div>
-        <div class="stat-item"><p>WA Clicks</p><h3 id="countClicks">0</h3></div>
+    <div style="margin-top: 2rem;">
+        <button class="btn btn-wa" style="width: auto;" onclick="openModal()">+ Buat Loker Baru</button>
     </div>
-    <div class="chart-box"><canvas id="trafficChart"></canvas></div>
-    <button class="btn btn-primary" style="margin-top:20px" onclick="openModal()">+ Post New Job</button>
 </div>
 
 <main id="lokerGrid" class="loker-grid"></main>
 
+<!-- MODAL DUAL VISION -->
 <div id="jobModal" class="modal">
     <div class="modal-content">
-        <h3>✨ Vision OCR Assistant</h3><br>
-        <div class="vision-box">
-            <p style="margin-bottom: 10px; font-size: 0.8rem;">Upload screenshot loker untuk isi form otomatis</p>
-            <input type="file" id="ocrInput" accept="image/*" class="hidden" onchange="runVision(this)">
-            <button class="btn btn-primary" style="width: 100%" onclick="document.getElementById('ocrInput').click()">📸 Scan Gambar Loker</button>
-            <div id="ocrStatus">Menganalisis... <span id="ocrPerc">0%</span></div>
+        <h3 style="margin-bottom: 15px;">🚀 Dual-Vision AI Assistant</h3>
+        
+        <div class="vision-grid">
+            <!-- Scan 1: Header Info -->
+            <div class="vision-box">
+                <p>SCAN 1: INFO UTAMA<br>(Judul, Gaji, WA)</p>
+                <input type="file" id="ocrMain" accept="image/*" class="hidden" onchange="processOCR(this, 'main')">
+                <button class="btn btn-primary" style="width: 100%; font-size: 0.7rem;" onclick="document.getElementById('ocrMain').click()">📸 Scan Info</button>
+                <div id="statusMain" class="ocr-status">Scanning... <span id="percMain">0%</span></div>
+            </div>
+            
+            <!-- Scan 2: Description Append -->
+            <div class="vision-box" style="border-color: var(--accent);">
+                <p>SCAN 2: DESKRIPSI<br>(Tambah teks di bawah)</p>
+                <input type="file" id="ocrDesc" accept="image/*" class="hidden" onchange="processOCR(this, 'desc')">
+                <button class="btn" style="width: 100%; font-size: 0.7rem; background: var(--accent); color: white;" onclick="document.getElementById('ocrDesc').click()">📸 Scan Deskripsi</button>
+                <div id="statusDesc" class="ocr-status">Scanning... <span id="percDesc">0%</span></div>
+            </div>
         </div>
 
-        <input type="text" id="fPos" class="input-box" placeholder="Posisi">
-        <input type="text" id="fComp" class="input-box" placeholder="Perusahaan">
+        <input type="text" id="fPos" class="input-box" placeholder="Posisi Pekerjaan">
+        <input type="text" id="fComp" class="input-box" placeholder="Nama Perusahaan">
         <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (62...)">
-        <textarea id="fDesc" class="input-box" rows="5" placeholder="Deskripsi..."></textarea>
+        <textarea id="fDesc" class="input-box" rows="8" placeholder="Hasil Scan Deskripsi akan muncul di sini..."></textarea>
         
         <div style="display: flex; gap: 10px; margin-top: 1rem;">
-            <button class="btn btn-primary" style="flex: 1" onclick="app.save()">Publish</button>
+            <button class="btn btn-primary" style="flex: 1" onclick="app.save()">Publish Loker</button>
             <button class="btn" style="background:var(--bg)" onclick="closeModal()">Batal</button>
         </div>
     </div>
@@ -116,59 +120,38 @@
 
 <script>
 /** 
- * LOKERINDO PRO V7.0
- * Fixed Image-to-Text Mapping 
+ * CORE V8.0
  */
 let isAdmin = false;
 const ADS_LINK = "https://tuxedoarbourannouncement.com/zhtirhypu?key=cc7341e331408d30ccf349b5b9539d67";
 
 const app = {
-    db: JSON.parse(localStorage.getItem('loker_v7_db')) || [],
-    stats: JSON.parse(localStorage.getItem('loker_v7_stats')) || { visitors: 0, clicks: 0, daily: {} },
+    db: JSON.parse(localStorage.getItem('loker_v8_db')) || [],
     adsState: {},
 
     init() {
-        this.trackVisitor();
         this.render();
     },
-
-    trackVisitor() {
-        if (!sessionStorage.getItem('visited')) {
-            this.stats.visitors++;
-            sessionStorage.setItem('visited', 'true');
-            this.saveStats();
-        }
-    },
-
-    saveStats() { localStorage.setItem('loker_v7_stats', JSON.stringify(this.stats)); },
 
     render() {
         const grid = document.getElementById('lokerGrid');
         if(!grid) return;
         grid.innerHTML = "";
-        const now = Date.now();
-
         this.db.forEach((item) => {
-            const isNew = (now - item.time) < 86400000;
             const hasClickedAds = this.adsState[item.id] || false;
-            
             grid.innerHTML += `
                 <div class="job-card">
-                    ${isNew ? '<span class="badge-new">✨ NEW POST</span>' : ''}
                     <h2 style="font-size:1.4rem;">${item.pos}</h2>
                     <p style="color:var(--text-dim);">🏢 ${item.comp}</p>
                     <div class="desc-container">
                         <div class="desc-content collapsed" id="desc-${item.id}">${item.desc.replace(/\n/g, '<br>')}</div>
                         <button class="btn-readmore" onclick="toggleReadMore(${item.id})">Lihat selengkapnya...</button>
                     </div>
-                    <button id="btn-wa-${item.id}" 
-                            class="btn btn-wa ${hasClickedAds ? 'ads-pending' : ''}" 
-                            onclick="app.handleApply('${item.id}', '${item.wa}', '${item.pos}')">
+                    <button id="btn-wa-${item.id}" class="btn btn-wa ${hasClickedAds ? 'ads-pending' : ''}" onclick="app.handleApply('${item.id}', '${item.wa}', '${item.pos}')">
                         ${!hasClickedAds ? 'Lamar Sekarang' : 'Lanjut ke WhatsApp'}
                     </button>
                 </div>`;
         });
-        if(isAdmin) this.updateAdminUI();
     },
 
     handleApply(id, wa, pos) {
@@ -178,8 +161,6 @@ const app = {
             this.render();
         } else {
             window.open(`https://wa.me/${wa}?text=Saya melamar loker ${encodeURIComponent(pos)}`, '_blank');
-            this.stats.clicks++;
-            this.saveStats();
         }
     },
 
@@ -193,23 +174,18 @@ const app = {
             time: Date.now() 
         };
         this.db.unshift(item);
-        localStorage.setItem('loker_v7_db', JSON.stringify(this.db));
+        localStorage.setItem('loker_v8_db', JSON.stringify(this.db));
         closeModal();
         this.render();
-    },
-
-    updateAdminUI() {
-        document.getElementById('countJobs').innerText = this.db.length;
-        document.getElementById('countVisitors').innerText = this.stats.visitors;
-        document.getElementById('countClicks').innerText = this.stats.clicks;
     }
 };
 
-/** FUNGSI VISION AI FIX **/
-async function runVision(input) {
+/** DUAL VISION ENGINE **/
+async function processOCR(input, mode) {
     if (!input.files || !input.files[0]) return;
-    const status = document.getElementById('ocrStatus');
-    const perc = document.getElementById('ocrPerc');
+    
+    const status = document.getElementById(mode === 'main' ? 'statusMain' : 'statusDesc');
+    const perc = document.getElementById(mode === 'main' ? 'percMain' : 'percDesc');
     status.style.display = 'block';
 
     try {
@@ -221,21 +197,25 @@ async function runVision(input) {
         const { data: { text } } = await worker.recognize(input.files[0]);
         await worker.terminate();
 
-        // Mapping Data ke Form
-        const lines = text.split('\n').filter(l => l.trim().length > 3);
-        document.getElementById('fPos').value = lines[0] ? lines[0].toUpperCase().substring(0, 30) : "";
-        document.getElementById('fDesc').value = lines.join('\n');
-        
-        // Cari nomor WhatsApp
-        const waMatch = text.match(/(?:\+62|62|0)8\d{8,11}/);
-        if(waMatch) {
-            let n = waMatch[0].replace(/\D/g, '');
-            document.getElementById('fWA').value = n.startsWith('0') ? '62' + n.substring(1) : n;
+        if (mode === 'main') {
+            // INFO UTAMA: Mengisi Judul dan WhatsApp
+            const lines = text.split('\n').filter(l => l.trim().length > 3);
+            document.getElementById('fPos').value = lines[0] ? lines[0].toUpperCase() : "";
+            const waMatch = text.match(/(?:\+62|62|0)8\d{8,11}/);
+            if(waMatch) {
+                let n = waMatch[0].replace(/\D/g, '');
+                document.getElementById('fWA').value = n.startsWith('0') ? '62' + n.substring(1) : n;
+            }
+        } else {
+            // DESKRIPSI: Append (Menambah di bawah tanpa hapus yang lama)
+            const currentDesc = document.getElementById('fDesc').value;
+            const newText = text.trim();
+            document.getElementById('fDesc').value = currentDesc ? currentDesc + "\n\n" + newText : newText;
         }
 
-        status.innerText = "✅ Berhasil Discan!";
+        status.innerText = "✅ Selesai!";
     } catch (e) {
-        alert("Gagal membaca gambar.");
+        alert("Gagal memproses gambar.");
         status.style.display = 'none';
     }
 }
@@ -244,7 +224,7 @@ let clickCount = 0;
 function adminCounter() {
     clickCount++;
     if(clickCount === 9) {
-        if(prompt("Admin Access:") === "admin123") {
+        if(prompt("Password:") === "admin123") {
             isAdmin = true;
             document.getElementById('adminArea').style.display = 'block';
             app.render();
@@ -255,14 +235,15 @@ function adminCounter() {
 
 function toggleReadMore(id) {
     const el = document.getElementById(`desc-${id}`);
-    const btn = el.nextElementSibling;
     el.classList.toggle('collapsed');
-    btn.innerText = el.classList.contains('collapsed') ? "Lihat selengkapnya..." : "Sembunyikan";
 }
 
 function logout() { location.reload(); }
 function openModal() { document.getElementById('jobModal').style.display = 'block'; }
-function closeModal() { document.getElementById('jobModal').style.display = 'none'; }
+function closeModal() { 
+    document.getElementById('jobModal').style.display = 'none'; 
+    document.querySelectorAll('.modal input, .modal textarea').forEach(i => i.value = "");
+}
 function toggleTheme() {
     document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 }
