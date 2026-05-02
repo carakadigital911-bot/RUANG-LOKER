@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOKERINDO PRO | Elite AI Portal</title>
+    <title>LOKERINDO PRO | Professional Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -22,7 +22,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; transition: 0.4s; min-height: 100vh; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; transition: 0.4s; min-height: 100vh; display: flex; flex-direction: column; }
 
         header {
             position: sticky; top: 0; z-index: 1000; background: var(--glass); 
@@ -32,73 +32,70 @@
         .logo { cursor: pointer; user-select: none; }
         .logo h1 { font-weight: 800; font-size: 1.5rem; background: linear-gradient(90deg, var(--primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .hero { padding: 4rem 8% 2rem; text-align: center; }
+        .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+
+        /* HERO & SEARCH */
+        .hero { padding: 4rem 0 2rem; text-align: center; }
         .search-container { 
             display: flex; background: var(--card); padding: 8px; border-radius: 100px;
-            border: 1px solid var(--border); max-width: 900px; margin: 0 auto;
+            border: 1px solid var(--border); max-width: 900px; margin: 2rem auto;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-        .search-container input { flex: 1; background: transparent; border: none; padding: 15px 25px; color: var(--text); outline: none; font-size: 1rem; }
+        .search-container input { flex: 1; background: transparent; border: none; padding: 15px 25px; color: var(--text); outline: none; font-size: 1rem; width: 100%; }
         .btn-search { background: var(--primary); color: white; border: none; padding: 0 35px; border-radius: 100px; font-weight: 700; cursor: pointer; transition: 0.3s; }
 
-        .loker-grid { padding: 3rem 8% 5rem; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
-        
-        /* KUNCI TAMPILAN KARTU */
+        /* LOKER GRID */
+        .loker-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); padding-bottom: 5rem; }
         .job-card { 
             background: var(--card); border: 1px solid var(--border); border-radius: 28px; 
-            padding: 2rem; position: relative; transition: 0.4s; 
-            display: flex; flex-direction: column; min-height: 480px;
+            padding: 2rem; display: flex; flex-direction: column; min-height: 480px; transition: 0.4s;
         }
         .job-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px -15px var(--primary-glow); }
-        .job-title { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; line-height: 1.3; height: 3.2rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .job-meta { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 5px; height: 1.2rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-        .job-salary { font-size: 1.1rem; color: var(--accent); font-weight: 800; margin-bottom: 20px; }
+        .job-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; line-height: 1.4; height: 3.4rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .job-salary { font-size: 1.1rem; color: var(--accent); font-weight: 800; margin: 15px 0; }
+        .job-meta { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 5px; }
 
-        .desc-wrapper { flex-grow: 1; font-size: 0.88rem; color: var(--text-dim); margin-bottom: 25px; line-height: 1.6; }
-        .desc-text.collapsed { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-        .btn-readmore { background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; padding: 0; font-size: 0.85rem; margin-top: 8px; }
+        .desc-wrapper { flex-grow: 1; font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+        .desc-text.collapsed { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .btn-readmore { background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; font-size: 0.85rem; margin-top: 5px; }
 
+        /* BUBBLE BUTTON */
         .btn-wa { 
-            background: var(--kuning); color: #000; 
-            padding: 16px 24px; border-radius: 50px; font-weight: 800;
-            text-decoration: none; text-align: center;
-            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
-            animation: bubbleAnim 3s infinite ease-in-out;
-            border: 2px solid rgba(255,255,255,0.2);
-            font-size: 1rem;
+            background: var(--kuning); color: #000; padding: 16px; border-radius: 50px; font-weight: 800;
+            text-decoration: none; text-align: center; animation: bubble 3s infinite ease-in-out;
         }
-        @keyframes bubbleAnim {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3); }
-            50% { transform: scale(1.03) translateY(-5px); box-shadow: 0 15px 30px rgba(251, 191, 36, 0.5); }
-        }
+        @keyframes bubble { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03) translateY(-5px); } }
 
         /* ADMIN INTERFACE */
-        .admin-panel { 
-            background: var(--card); border: 1px solid var(--primary); border-radius: 30px; 
-            padding: 3rem; margin: 3rem auto; display: none; width: 92%; max-width: 1400px;
-        }
-        .admin-nav { display: flex; gap: 20px; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+        #adminArea { display: none; padding: 2rem 0; }
+        .admin-box { background: var(--card); border: 1px solid var(--primary); border-radius: 30px; padding: 2.5rem; }
+        .admin-nav { display: flex; gap: 15px; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
         .nav-link { cursor: pointer; color: var(--text-dim); font-weight: 700; padding: 10px 20px; border-radius: 12px; }
-        .nav-link.active { color: #fff; background: var(--primary); }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-        .stat-item { background: var(--bg); padding: 2rem; border-radius: 22px; border: 1px solid var(--border); }
-        .stat-item h3 { font-size: 2.8rem; color: var(--primary); font-weight: 800; }
+        .nav-link.active { background: var(--primary); color: white; }
 
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        .admin-table th, .admin-table td { padding: 18px; border-bottom: 1px solid var(--border); text-align: left; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-item { background: var(--bg); padding: 1.5rem; border-radius: 20px; border: 1px solid var(--border); }
+        .stat-item h3 { font-size: 2.5rem; color: var(--primary); font-weight: 800; }
 
-        /* MODAL AI */
-        .modal { display: none; position: fixed; inset: 0; z-index: 5000; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); padding: 2rem; }
-        .modal-content { background: var(--card); max-width: 850px; margin: auto; border-radius: 30px; padding: 3rem; border: 1px solid var(--border); overflow-y: auto; max-height: 90vh; }
-        .ai-assistant { background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1)); border: 2px dashed var(--primary); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
-        .input-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 14px; border-radius: 14px; color: var(--text); outline: none; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
 
-        .btn { padding: 12px 28px; border-radius: 14px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center; }
+        /* MODAL */
+        .modal { display: none; position: fixed; inset: 0; z-index: 5000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); padding: 2rem; overflow-y: auto; }
+        .modal-content { background: var(--card); max-width: 800px; margin: auto; border-radius: 30px; padding: 2.5rem; border: 1px solid var(--border); }
+        .ai-zone { background: rgba(99, 102, 241, 0.1); border: 2px dashed var(--primary); padding: 1.5rem; border-radius: 20px; margin-bottom: 1.5rem; }
+        .input-box { width: 100%; background: var(--bg); border: 1px solid var(--border); padding: 12px; border-radius: 12px; color: var(--text); outline: none; margin-bottom: 15px; }
+
+        .btn { padding: 12px 24px; border-radius: 14px; font-weight: 700; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; transition: 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        
+
         .hidden { display: none !important; }
+        @media (max-width: 768px) {
+            .search-container { flex-direction: column; border-radius: 20px; padding: 10px; }
+            .btn-search { padding: 15px; margin-top: 10px; }
+            header { padding: 1rem 5%; }
+        }
     </style>
 </head>
 <body>
@@ -107,65 +104,71 @@
     <div class="logo" onclick="adminCounter()">
         <h1>LOKERINDO.PRO</h1>
     </div>
-    <button class="btn btn-outline" onclick="toggleTheme()">🌓 Mode</button>
+    <button class="btn btn-outline" onclick="toggleTheme()">🌓 Theme</button>
 </header>
 
-<div id="userView">
+<!-- VIEW USER -->
+<main id="userView" class="container">
     <div class="hero">
-        <h2 style="font-size: 2.8rem; font-weight: 800;">Karir Impian Menantimu</h2>
+        <h2 style="font-size: 2.5rem; font-weight: 800;">Portal Kerja Masa Depan</h2>
         <div class="search-container">
-            <input type="text" id="searchJob" placeholder="Cari Pekerjaan...">
-            <input type="text" id="searchLoc" placeholder="Lokasi Kota...">
-            <button class="btn-search" onclick="app.search()">Cari</button>
+            <input type="text" id="searchJob" placeholder="Cari posisi pekerjaan...">
+            <input type="text" id="searchLoc" placeholder="Lokasi...">
+            <button class="btn-search" onclick="app.search()">Cari Loker</button>
         </div>
     </div>
-    <main id="lokerGrid" class="loker-grid"></main>
-</div>
+    <div id="lokerGrid" class="loker-grid"></div>
+</main>
 
-<div id="adminArea" class="admin-panel">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
-        <h2>Admin Control Panel</h2>
-        <button class="btn btn-outline" style="color: var(--danger)" onclick="logout()">Logout</button>
-    </div>
-    <div class="admin-nav">
-        <div class="nav-link active" onclick="switchTab('stats')">Analytics</div>
-        <div class="nav-link" onclick="switchTab('manage')">Management</div>
-    </div>
-    <div id="tab-stats" class="admin-tab">
-        <div class="stats-grid">
-            <div class="stat-item"><p>Lowongan</p><h3 id="countJobs">0</h3></div>
-            <div class="stat-item"><p>Visitors</p><h3 id="countVisitors">0</h3></div>
-            <div class="stat-item"><p>Klik WA</p><h3 id="countClicks">0</h3></div>
+<!-- VIEW ADMIN -->
+<div id="adminArea" class="container">
+    <div class="admin-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Admin Control Suite</h2>
+            <button class="btn btn-outline" style="color:var(--danger)" onclick="logout()">Logout</button>
+        </div>
+        <div class="admin-nav">
+            <div class="nav-link active" onclick="switchTab('stats')">Analytics</div>
+            <div class="nav-link" onclick="switchTab('manage')">Job Management</div>
+        </div>
+        <div id="tab-stats" class="admin-tab">
+            <div class="stats-grid">
+                <div class="stat-item"><p>Total Jobs</p><h3 id="countJobs">0</h3></div>
+                <div class="stat-item"><p>Visitors</p><h3 id="countVisitors">0</h3></div>
+                <div class="stat-item"><p>WA Clicks</p><h3 id="countClicks">0</h3></div>
+            </div>
+        </div>
+        <div id="tab-manage" class="admin-tab hidden">
+            <button class="btn btn-primary" onclick="openModal()">+ Add New</button>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead><tr><th>POSITION</th><th>CLICKS</th><th>ACTION</th></tr></thead>
+                    <tbody id="adminTableBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <div id="tab-manage" class="admin-tab hidden">
-        <button class="btn btn-primary" style="margin-bottom: 20px" onclick="openModal()">+ Lowongan Baru</button>
-        <table class="admin-table">
-            <thead><tr><th>POSISI</th><th>PERUSAHAAN</th><th>KLIK</th><th>AKSI</th></tr></thead>
-            <tbody id="adminTableBody"></tbody>
-        </table>
-    </div>
 </div>
 
-<!-- MODAL AI -->
+<!-- MODAL FORM -->
 <div id="jobModal" class="modal">
     <div class="modal-content">
-        <h3>Post New Listing</h3><br>
-        <div class="ai-assistant">
-            <label style="font-size: 0.85rem; font-weight: 800; color: var(--primary)">🤖 NEURAL AI AUTO-FILL</label>
-            <textarea id="aiRaw" class="input-box" rows="5" style="margin-top:12px; background: rgba(0,0,0,0.2);" placeholder="Paste judul/detail loker disini..."></textarea>
-            <button class="btn btn-primary" style="width: 100%;" onclick="app.aiProcess()">✨ Jalankan AI Auto-Fill</button>
+        <h3>Post Job Vacancy</h3><br>
+        <div class="ai-zone">
+            <label style="font-size: 0.8rem; font-weight: 800; color: var(--primary)">🤖 NEURAL AI AUTO-FILL</label>
+            <textarea id="aiRaw" class="input-box" rows="4" style="margin-top:10px;" placeholder="Paste data loker disini..."></textarea>
+            <button class="btn btn-primary" style="width: 100%;" onclick="app.aiProcess()">✨ Jalankan Auto-Fill</button>
         </div>
         <input type="hidden" id="fId">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <input type="text" id="fPos" class="input-box" placeholder="Posisi Pekerjaan">
-            <input type="text" id="fComp" class="input-box" placeholder="Nama Perusahaan">
-            <input type="number" id="fSalary" class="input-box" placeholder="Nominal Gaji">
-            <input type="text" id="fLoc" class="input-box" placeholder="Lokasi">
+            <input type="text" id="fPos" class="input-box" placeholder="Position">
+            <input type="text" id="fComp" class="input-box" placeholder="Company">
+            <input type="number" id="fSalary" class="input-box" placeholder="Salary">
+            <input type="text" id="fLoc" class="input-box" placeholder="Location">
             <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (62...)">
         </div>
-        <textarea id="fDesc" class="input-box" rows="6" placeholder="Deskripsi Lengkap"></textarea>
-        <div style="display: flex; gap: 15px;">
+        <textarea id="fDesc" class="input-box" rows="5" placeholder="Description"></textarea>
+        <div style="display: flex; gap: 10px;">
             <button class="btn btn-primary" style="flex: 2" onclick="app.save()">Publish</button>
             <button class="btn btn-outline" style="flex: 1" onclick="closeModal()">Cancel</button>
         </div>
@@ -177,8 +180,8 @@ let isAdmin = false;
 const ADS_LINK = "https://tuxedoarbourannouncement.com/zhtirhypu?key=cc7341e331408d30ccf349b5b9539d67";
 
 const app = {
-    db: JSON.parse(localStorage.getItem('loker_v63_db')) || [],
-    stats: JSON.parse(localStorage.getItem('loker_v63_stats')) || { visitors: 0, clicks: 0 },
+    db: JSON.parse(localStorage.getItem('loker_v64_db')) || [],
+    stats: JSON.parse(localStorage.getItem('loker_v64_stats')) || { visitors: 0, clicks: 0 },
     adsState: {},
 
     init() {
@@ -190,50 +193,38 @@ const app = {
         this.render();
     },
 
-    saveStats() { localStorage.setItem('loker_v63_stats', JSON.stringify(this.stats)); },
+    saveStats() { localStorage.setItem('loker_v64_stats', JSON.stringify(this.stats)); },
     formatRp(num) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num); },
 
-    // NEURAL AI AUTO-FILL OPTIMIZED
     aiProcess() {
         const raw = document.getElementById('aiRaw').value;
-        if(!raw) return alert("Paste teksnya dulu!");
-        
+        if(!raw) return;
         const lines = raw.split('\n').map(l => l.trim()).filter(l => l !== "");
         
-        // 1. Deteksi Posisi (Biasanya baris pertama atau baris dengan kata 'Dibutuhkan')
-        let pos = lines[0] ? lines[0].replace(/dibutuhkan|dicari|lowongan/gi, '').trim() : "";
-        document.getElementById('fPos').value = pos.toUpperCase();
+        // POSISI
+        document.getElementById('fPos').value = lines[0].replace(/dibutuhkan|dicari/gi, '').trim().toUpperCase();
+        
+        // GAJI
+        const sal = raw.match(/(\d[\d.]*[\d])/);
+        if(sal) document.getElementById('fSalary').value = sal[0].replace(/\./g, '');
 
-        // 2. Deteksi Gaji (Mencari pola Rp atau angka berderet)
-        const salMatch = raw.match(/(?:rp|gaji|sal)\s*([\d.]+)/i);
-        if(salMatch) {
-            document.getElementById('fSalary').value = salMatch[1].replace(/\./g, '');
-        } else {
-            const onlyNumbers = raw.match(/\b\d{6,8}\b/);
-            if(onlyNumbers) document.getElementById('fSalary').value = onlyNumbers[0];
+        // LOKASI
+        const kota = raw.match(/(JAKARTA|SURABAYA|BANDUNG|MEDAN|BEKASI|TANGERANG|GADING|UTARA|SELATAN|PUSAT|TIMUR|BARAT)/i);
+        if(kota) document.getElementById('fLoc').value = kota[0].toUpperCase();
+
+        // WA
+        const wa = raw.match(/(?:\+?62|08)\d{8,13}/);
+        if(wa) {
+            let n = wa[0].replace(/\D/g, '');
+            document.getElementById('fWA').value = n.startsWith('0') ? '62' + n.substring(1) : n;
         }
-
-        // 3. Deteksi Lokasi (Baris yang mengandung nama kota besar)
-        const kotaMatch = raw.match(/(JAKARTA|SURABAYA|BANDUNG|MEDAN|BEKASI|TANGERANG|BOGOR|DEPOK|GADING|UTARA|SELATAN|PUSAT|TIMUR|BARAT)/i);
-        if(kotaMatch) {
-            const locLine = lines.find(l => l.toUpperCase().includes(kotaMatch[0].toUpperCase()));
-            document.getElementById('fLoc').value = locLine || kotaMatch[0];
-        }
-
-        // 4. Deteksi Nomor Telepon / WA
-        const waMatch = raw.match(/(?:\+?62|08)\d{8,13}/);
-        if(waMatch) {
-            let num = waMatch[0].replace(/\D/g, '');
-            document.getElementById('fWA').value = num.startsWith('0') ? '62' + num.substring(1) : num;
-        }
-
-        // 5. Deskripsi
         document.getElementById('fDesc').value = raw;
-        alert("✨ AI Berhasil Mengisi Kolom!");
+        alert("✨ AI Filled Success!");
     },
 
     render(data = this.db) {
         const grid = document.getElementById('lokerGrid');
+        if(!grid) return;
         grid.innerHTML = "";
         data.forEach((item) => {
             const hasAds = this.adsState[item.id] || false;
@@ -257,7 +248,7 @@ const app = {
             document.getElementById('countVisitors').innerText = this.stats.visitors;
             document.getElementById('countClicks').innerText = this.stats.clicks;
             document.getElementById('adminTableBody').innerHTML = this.db.map(l => `
-                <tr><td>${l.pos}</td><td>${l.comp}</td><td>${l.clicks || 0}</td>
+                <tr><td>${l.pos}</td><td>${l.clicks || 0}</td>
                 <td><button onclick="app.edit('${l.id}')" style="color:var(--primary); background:none; border:none; cursor:pointer">Edit</button> | 
                 <button onclick="app.delete('${l.id}')" style="color:red; background:none; border:none; cursor:pointer">Del</button></td></tr>
             `).join('');
@@ -265,8 +256,8 @@ const app = {
     },
 
     toggleRead(id, btn) {
-        const textEl = document.getElementById(`desc-text-${id}`);
-        const isCollapsed = textEl.classList.toggle('collapsed');
+        const el = document.getElementById(`desc-text-${id}`);
+        const isCollapsed = el.classList.toggle('collapsed');
         btn.innerText = isCollapsed ? 'Lihat selengkapnya' : 'Sembunyikan';
     },
 
@@ -278,18 +269,17 @@ const app = {
         } else {
             window.open(`https://wa.me/${wa}?text=Halo%20saya%20tertarik%20melamar%20${encodeURIComponent(pos)}`, '_blank');
             const idx = this.db.findIndex(x => x.id == id);
-            this.db[idx].clicks = (this.db[idx].clicks || 0) + 1;
+            this.db[idx].clicks++;
             this.stats.clicks++;
             this.saveStats();
-            localStorage.setItem('loker_v63_db', JSON.stringify(this.db));
+            localStorage.setItem('loker_v64_db', JSON.stringify(this.db));
         }
     },
 
     search() {
         const qJob = document.getElementById('searchJob').value.toLowerCase();
         const qLoc = document.getElementById('searchLoc').value.toLowerCase();
-        const res = this.db.filter(i => i.pos.toLowerCase().includes(qJob) && i.loc.toLowerCase().includes(qLoc));
-        this.render(res);
+        this.render(this.db.filter(i => i.pos.toLowerCase().includes(qJob) && i.loc.toLowerCase().includes(qLoc)));
     },
 
     save() {
@@ -303,7 +293,7 @@ const app = {
         };
         if(id) { const index = this.db.findIndex(x => x.id == id); this.db[index] = newItem; } 
         else { this.db.unshift(newItem); }
-        localStorage.setItem('loker_v63_db', JSON.stringify(this.db));
+        localStorage.setItem('loker_v64_db', JSON.stringify(this.db));
         closeModal(); this.render();
     },
 
@@ -319,7 +309,7 @@ const app = {
         openModal();
     },
 
-    delete(id) { if(confirm("Hapus?")) { this.db = this.db.filter(x => x.id != id); localStorage.setItem('loker_v63_db', JSON.stringify(this.db)); this.render(); } }
+    delete(id) { if(confirm("Hapus?")) { this.db = this.db.filter(x => x.id != id); localStorage.setItem('loker_v64_db', JSON.stringify(this.db)); this.render(); } }
 };
 
 function switchTab(tab) {
@@ -333,7 +323,7 @@ let clickCount = 0;
 function adminCounter() {
     clickCount++;
     if(clickCount === 9) {
-        if(prompt("Password:") === "admin123") {
+        if(prompt("Admin Access:") === "admin123") {
             isAdmin = true;
             document.getElementById('adminArea').style.display = 'block';
             document.getElementById('userView').style.display = 'none';
@@ -345,7 +335,11 @@ function adminCounter() {
 
 function logout() { location.reload(); }
 function openModal() { document.getElementById('jobModal').style.display = 'block'; }
-function closeModal() { document.getElementById('jobModal').style.display = 'none'; document.getElementById('fId').value = ""; document.querySelectorAll('.modal input, .modal textarea').forEach(i => i.value = ""); }
+function closeModal() { 
+    document.getElementById('jobModal').style.display = 'none'; 
+    document.getElementById('fId').value = "";
+    document.querySelectorAll('.modal input, .modal textarea').forEach(i => i.value = "");
+}
 function toggleTheme() { document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
 
 document.addEventListener('DOMContentLoaded', () => app.init());
