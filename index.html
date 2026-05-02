@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOKERINDO PRO | Premium Career Portal</title>
+    <title>LOKERINDO PRO | Elite AI Portal</title>
     
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -33,7 +32,7 @@
         .logo { cursor: pointer; user-select: none; }
         .logo h1 { font-weight: 800; font-size: 1.5rem; background: linear-gradient(90deg, var(--primary), #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* HERO & SEARCH */
+        /* USER UI */
         .hero { padding: 4rem 8% 2rem; text-align: center; }
         .search-container { 
             display: flex; background: var(--card); padding: 8px; border-radius: 100px;
@@ -43,7 +42,6 @@
         .search-container input { flex: 1; background: transparent; border: none; padding: 15px 25px; color: var(--text); outline: none; font-size: 1rem; }
         .btn-search { background: var(--primary); color: white; border: none; padding: 0 35px; border-radius: 100px; font-weight: 700; cursor: pointer; }
 
-        /* JOB GRID */
         .loker-grid { padding: 1rem 8% 5rem; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
         .job-card { 
             background: var(--card); border: 1px solid var(--border); border-radius: 28px; 
@@ -64,7 +62,7 @@
         }
         @keyframes bubble { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04) translateY(-5px); } }
 
-        /* ADMIN DASHBOARD - LEBIH LUAS */
+        /* ADMIN DASHBOARD */
         #adminArea { display: none; padding: 2rem 5%; }
         .admin-container { background: var(--card); border: 1px solid var(--primary); border-radius: 30px; padding: 2.5rem; max-width: 1400px; margin: 0 auto; }
         .admin-nav { display: flex; gap: 15px; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
@@ -89,11 +87,6 @@
         .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
 
         .hidden { display: none !important; }
-        @media (max-width: 768px) {
-            .search-container { flex-direction: column; border-radius: 20px; padding: 10px; }
-            .btn-search { padding: 15px; margin-top: 10px; }
-            header { padding: 1rem 5%; }
-        }
     </style>
 </head>
 <body>
@@ -107,11 +100,11 @@
 
 <div id="userView">
     <div class="hero">
-        <h2 style="font-size: 2.5rem; font-weight: 800;">Temukan Peluang Karirmu</h2>
+        <h2 style="font-size: 2.5rem; font-weight: 800;">Portal Karir Masa Depan</h2>
         <div class="search-container">
-            <input type="text" id="searchJob" placeholder="Posisi pekerjaan...">
+            <input type="text" id="searchJob" placeholder="Cari posisi pekerjaan...">
             <input type="text" id="searchLoc" placeholder="Lokasi...">
-            <button class="btn-search" onclick="app.search()">Cari</button>
+            <button class="btn-search" onclick="app.search()">Cari Loker</button>
         </div>
     </div>
     <main id="lokerGrid" class="loker-grid"></main>
@@ -120,22 +113,22 @@
 <div id="adminArea">
     <div class="admin-container">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h2>Management Dashboard</h2>
+            <h2>Admin Dashboard</h2>
             <button class="btn btn-outline" style="color:var(--danger)" onclick="logout()">Logout</button>
         </div>
         <div class="admin-nav">
-            <div id="nav-stats" class="nav-link active" onclick="switchTab('stats')">Analytics</div>
-            <div id="nav-manage" class="nav-link" onclick="switchTab('manage')">Manajemen Loker</div>
+            <div id="nav-stats" class="nav-link active" onclick="switchTab('stats')">Statistik</div>
+            <div id="nav-manage" class="nav-link" onclick="switchTab('manage')">Manajemen</div>
         </div>
         <div id="tab-stats" class="admin-tab">
             <div class="stats-grid">
-                <div class="stat-item"><p>Total Jobs</p><h3 id="countJobs">0</h3></div>
-                <div class="stat-item"><p>Total Visitors</p><h3 id="countVisitors">0</h3></div>
-                <div class="stat-item"><p>WA Clicks</p><h3 id="countClicks">0</h3></div>
+                <div class="stat-item"><p>Lowongan</p><h3 id="countJobs">0</h3></div>
+                <div class="stat-item"><p>Visitors</p><h3 id="countVisitors">0</h3></div>
+                <div class="stat-item"><p>Klik WA</p><h3 id="countClicks">0</h3></div>
             </div>
         </div>
         <div id="tab-manage" class="admin-tab hidden">
-            <button class="btn btn-primary" onclick="openModal()">+ Tambah Loker Baru</button>
+            <button class="btn btn-primary" onclick="openModal()">+ Tambah Loker</button>
             <div style="overflow-x: auto;">
                 <table>
                     <thead><tr><th>POSITION</th><th>CLICKS</th><th>ACTION</th></tr></thead>
@@ -151,14 +144,14 @@
         <h3 id="modalTitle">Post Job Vacancy</h3><br>
         <div class="ai-zone">
             <label style="font-size: 0.8rem; font-weight: 800; color: var(--primary)">🤖 NEURAL AI AUTO-FILL</label>
-            <textarea id="aiRaw" class="input-box" rows="4" style="margin-top:10px;" placeholder="Paste teks mentah loker di sini..."></textarea>
+            <textarea id="aiRaw" class="input-box" rows="5" style="margin-top:10px;" placeholder="Paste teks mentah di sini..."></textarea>
             <button class="btn btn-primary" style="width: 100%;" onclick="app.aiProcess()">✨ Jalankan AI Auto-Fill</button>
         </div>
         <input type="hidden" id="fId">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <input type="text" id="fPos" class="input-box" placeholder="Job Position">
-            <input type="text" id="fComp" class="input-box" placeholder="Company Name">
-            <input type="number" id="fSalary" class="input-box" placeholder="Salary">
+            <input type="text" id="fPos" class="input-box" placeholder="Position">
+            <input type="text" id="fComp" class="input-box" placeholder="Company">
+            <input type="number" id="fSalary" class="input-box" placeholder="Salary (Rp)">
             <input type="text" id="fLoc" class="input-box" placeholder="Location">
             <input type="text" id="fWA" class="input-box" placeholder="WhatsApp (62...)">
         </div>
@@ -171,57 +164,52 @@
 </div>
 
 <script>
-/** 
- * LOKERINDO CORE ENGINE V7.0
- * Fixed Scope & Logic Recovery
- */
 const ADS_LINK = "https://tuxedoarbourannouncement.com/zhtirhypu?key=cc7341e331408d30ccf349b5b9539d67";
 
 const app = {
     isAdminMode: false,
     adsTrack: {},
-    db: JSON.parse(localStorage.getItem('loker_v7_db')) || [
-        { id: 1, pos: "Senior Web Developer", comp: "Tech Global Hub", sal: 12000000, loc: "Jakarta", wa: "62812345678", time: Date.now(), desc: "• Menguasai React & Node.js\n• Pengalaman minimal 3 tahun\n• Gaji Kompetitif\n• Jam kerja fleksibel" }
-    ],
-    stats: JSON.parse(localStorage.getItem('loker_v7_stats')) || { visitors: 0, clicks: 0 },
+    db: JSON.parse(localStorage.getItem('loker_v71_db')) || [],
+    stats: JSON.parse(localStorage.getItem('loker_v71_stats')) || { visitors: 0, clicks: 0 },
 
     init() {
-        if (!sessionStorage.getItem('v7_visited')) {
+        if (!sessionStorage.getItem('v71_visited')) {
             this.stats.visitors++;
-            sessionStorage.setItem('v7_visited', 'true');
+            sessionStorage.setItem('v71_visited', 'true');
             this.saveStats();
         }
         this.render();
     },
 
-    saveStats() { localStorage.setItem('loker_v7_stats', JSON.stringify(this.stats)); },
+    saveStats() { localStorage.setItem('loker_v71_stats', JSON.stringify(this.stats)); },
     formatRp(num) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num || 0); },
 
     aiProcess() {
         const raw = document.getElementById('aiRaw').value;
-        if(!raw) return alert("Paste teksnya dulu!");
-        
+        if(!raw) return;
         const lines = raw.split('\n').map(l => l.trim()).filter(l => l !== "");
         
-        // POSISI
+        // 1. POSISI (Ambil baris pertama)
         document.getElementById('fPos').value = lines[0].replace(/dibutuhkan|dicari/gi, '').trim().toUpperCase();
         
-        // GAJI
+        // 2. GAJI (Regex angka jutaan)
         const sal = raw.match(/(\d[\d.]*[\d])/);
         if(sal) document.getElementById('fSalary').value = sal[0].replace(/\./g, '');
 
-        // LOKASI
-        const kota = raw.match(/(JAKARTA|SURABAYA|BANDUNG|MEDAN|BEKASI|TANGERANG|GADING|UTARA|SELATAN|PUSAT|TIMUR|BARAT)/i);
-        if(kota) document.getElementById('fLoc').value = kota[0].toUpperCase();
+        // 3. LOKASI (Ambil Baris yang mengandung kota besar/Jakarta/Gading)
+        const kotaList = /(JAKARTA|SURABAYA|BANDUNG|MEDAN|BEKASI|TANGERANG|GADING|UTARA|SELATAN|PUSAT|TIMUR|BARAT|BOGOR|DEPOK)/i;
+        const locLine = lines.find(line => kotaList.test(line));
+        if(locLine) document.getElementById('fLoc').value = locLine.toUpperCase();
 
-        // WA
+        // 4. WHATSAPP
         const wa = raw.match(/(?:\+?62|08)\d{8,13}/);
         if(wa) {
             let n = wa[0].replace(/\D/g, '');
             document.getElementById('fWA').value = n.startsWith('0') ? '62' + n.substring(1) : n;
         }
+        
         document.getElementById('fDesc').value = raw;
-        alert("✨ AI Analysis Success!");
+        alert("✨ AI Precision Fill Success!");
     },
 
     render(data = this.db) {
@@ -271,13 +259,13 @@ const app = {
             this.adsTrack[id] = true;
             this.render();
         } else {
-            window.open(`https://wa.me/${wa}?text=Saya melamar posisi ${encodeURIComponent(pos)}`, '_blank');
+            window.open(`https://wa.me/${wa}?text=Halo saya melamar posisi ${encodeURIComponent(pos)}`, '_blank');
             const idx = this.db.findIndex(x => x.id == id);
             if(idx !== -1) {
                 this.db[idx].clicks = (this.db[idx].clicks || 0) + 1;
                 this.stats.clicks++;
                 this.saveStats();
-                localStorage.setItem('loker_v7_db', JSON.stringify(this.db));
+                localStorage.setItem('loker_v71_db', JSON.stringify(this.db));
             }
         }
     },
@@ -305,7 +293,7 @@ const app = {
         } else {
             this.db.unshift(newItem);
         }
-        localStorage.setItem('loker_v7_db', JSON.stringify(this.db));
+        localStorage.setItem('loker_v71_db', JSON.stringify(this.db));
         closeModal();
         this.render();
     },
@@ -313,7 +301,6 @@ const app = {
     edit(id) {
         const l = this.db.find(x => x.id == id);
         if(!l) return;
-        document.getElementById('modalTitle').innerText = "Edit Data Lowongan";
         document.getElementById('fId').value = l.id;
         document.getElementById('fPos').value = l.pos;
         document.getElementById('fComp').value = l.comp;
@@ -325,20 +312,19 @@ const app = {
     },
 
     delete(id) {
-        if(confirm("Yakin ingin menghapus?")) {
+        if(confirm("Hapus loker ini?")) {
             this.db = this.db.filter(x => x.id != id);
-            localStorage.setItem('loker_v7_db', JSON.stringify(this.db));
+            localStorage.setItem('loker_v71_db', JSON.stringify(this.db));
             this.render();
         }
     }
 };
 
-// GLOBAL UI HELPERS
 let clickSecret = 0;
 function adminCounter() {
     clickSecret++;
     if(clickSecret === 9) {
-        if(prompt("System Password:") === "admin123") {
+        if(prompt("Admin Access:") === "admin123") {
             app.isAdminMode = true;
             document.getElementById('adminArea').style.display = 'block';
             document.getElementById('userView').style.display = 'none';
@@ -360,7 +346,6 @@ function openModal() { document.getElementById('jobModal').style.display = 'bloc
 function closeModal() { 
     document.getElementById('jobModal').style.display = 'none'; 
     document.getElementById('fId').value = "";
-    document.getElementById('modalTitle').innerText = "Post Job Vacancy";
     document.querySelectorAll('.modal input, .modal textarea').forEach(i => i.value = "");
 }
 function toggleTheme() {
@@ -368,7 +353,6 @@ function toggleTheme() {
     document.documentElement.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
 }
 
-// SAFE INITIALIZATION
 window.onload = () => { app.init(); };
 </script>
 </body>
